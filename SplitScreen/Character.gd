@@ -1,21 +1,47 @@
 extends KinematicBody2D
 
 export var id = 0
-
 export var speed = 250
+
+var lastPressedLeft = 0;
+var lastPressedRight = 0;
+var lastPressedUp = 0;
+var lastPressedDown = 0;
 
 var velo = Vector2()
 
 func get_input():
+	if(Input.is_action_just_pressed("left_%s"%id)):
+		lastPressedLeft = OS.get_ticks_msec();
+	elif (Input.is_action_just_pressed('right_%s'%id)):
+		lastPressedRight = OS.get_ticks_msec();
+	elif(Input.is_action_just_pressed('up_%s'%id)):
+		lastPressedUp = OS.get_ticks_msec();
+	elif(Input.is_action_just_pressed('down_%s'%id)):
+		lastPressedDown = OS.get_ticks_msec();
+		
+	if(Input.is_action_just_released("left_%s"%id)):
+		lastPressedLeft = 0;
+	elif (Input.is_action_just_released('right_%s'%id)):
+		lastPressedRight = 0;
+	elif(Input.is_action_just_released('up_%s'%id)):
+		lastPressedUp = 0;
+	elif(Input.is_action_just_released('down_%s'%id)):
+		lastPressedDown = 0;
+		
+	# get the last pressed button
+	var lastPressed = max(lastPressedLeft, max(lastPressedRight, max(lastPressedUp, lastPressedDown)))
 	velo = Vector2()
-	if(Input.is_action_pressed('right_%s'%id)):
-		velo.x += 1
-	if(Input.is_action_pressed('left_%s'%id)):
-		velo.x -= 1
-	if(Input.is_action_pressed('up_%s'%id)):
-		velo.y -= 1
-	if(Input.is_action_pressed('down_%s'%id)):
-		velo.y += 1
+	if(lastPressed != 0):
+		if(lastPressedLeft == lastPressed):
+			velo.x -= 1
+		if(lastPressedRight == lastPressed):
+			velo.x += 1
+		if(lastPressedUp == lastPressed):
+			velo.y -= 1
+		if(lastPressedDown == lastPressed):
+			velo.y += 1
+			
 	velo = velo.normalized()*speed
 	
 	
