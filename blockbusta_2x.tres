@@ -3,6 +3,6 @@
 [ext_resource path="res://fonts/blockbusta/FTBLOCKB.TTF" type="DynamicFontData" id=1]
 
 [resource]
-resource_name = "Blockbusta"
-size = 50
+resource_name = "Blockbusta2x"
+size = 32
 font_data = ExtResource( 1 )
