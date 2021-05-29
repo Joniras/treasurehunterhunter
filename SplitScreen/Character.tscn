@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://SplitScreen/Character.gd" type="Script" id=1]
 [ext_resource path="res://assets/treasure_chests_32x32.png" type="Texture" id=2]
+[ext_resource path="res://assets/spot.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 2.4, 2.4 )
@@ -26,3 +27,9 @@ cast_to = Vector2( 0, 4 )
 [node name="Tween" type="Tween" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Light" type="Light2D" parent="."]
+modulate = Color( 1, 0.74902, 0, 1 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+shadow_enabled = true
