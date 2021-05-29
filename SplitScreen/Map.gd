@@ -140,9 +140,9 @@ func round_end_won(playerWon):
 
 func remove_item(id):
 	for N in world.get_children():
-		if(N.name == "Item_"+str(id)):
-			world.remove_child(N)
-			break
+		if("Item_"+str(id) in N.name):
+			print("Removed single Item: "+N.name)
+			N.queue_free()
 
 func refreshItemView(items, id):
 	var itemBox
@@ -156,13 +156,13 @@ func refreshItemView(items, id):
 			start = 1-(items.size()-1)*0.2
 		2:
 			itemBox = items2
-			items.invert()
-			increment = 0.2
-			start = 1-(items.size()-1)*0.2
 		3:
 			itemBox = items3
 		4:
 			itemBox = items4
+			items.invert()
+			increment = 0.2
+			start = 1-(items.size()-1)*0.2
 			
 	for N in itemBox.get_children():
 		itemBox.remove_child(N)

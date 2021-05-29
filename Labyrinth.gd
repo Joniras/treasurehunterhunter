@@ -19,6 +19,9 @@ var pendingCells: Array
 # placed where.
 var labyrinth = []
 
+
+var types = ["stun","speed","bomb","light","wall"]
+	
 var tile_size = 4
 
 onready var player1 = $Player1
@@ -46,8 +49,9 @@ func _ready():
 
 func init(createNewLabyrinth):
 	set_player_positions()
-	
+	remove_all_items()
 	if (!createNewLabyrinth):
+		redrawAllItems()
 		return
 
 	initLabyrinth()
@@ -78,6 +82,22 @@ func init(createNewLabyrinth):
 		drawTile(Vector2(LABYRINTH_WIDTH*2,i), WALL_TILE)
 		drawTile(Vector2(-1,i), WALL_TILE)
 
+
+func remove_all_items():
+	var children = self.get_children()
+	for N in children:
+		if("Item_" in N.name):
+			print("removed Item "+N.name)
+			N.queue_free()
+
+func redrawAllItems():
+	var countItems = 0
+	for column in range(LABYRINTH_WIDTH):
+		for row in range(LABYRINTH_HEIGHT):
+			if(labyrinth[column][row]==ITEM):
+				add_item_mirrored(column, row, types[randi()%types.size()], countItems)
+				countItems += 1
+			
 # using Randomized Prim's Algorithm to generate a labyrinth inside the
 # labyrinth matrix
 func generateLabyrinth(startingCell: Vector2):
@@ -120,7 +140,6 @@ func generateLabyrinth(startingCell: Vector2):
 
 func sprinkleItems():
 	var countItems = randi()%10;
-	var types = ["stun","speed","bomb","light","wall"]
 	while countItems > 0:
 		countItems -= 1
 		var spotFound = false
@@ -151,10 +170,10 @@ func add_item_mirrored(x,y,type,id):
 
 	
 func add_item(x,y, type, id):
-	print("Added Item @"+str(x)+","+str(y))
 	var new_item = item.instance()
 	new_item.type = type
 	new_item.name = "Item_"+str(id)
+	print("Added "+new_item.name)
 	new_item.id = id
 	new_item.position = Vector2(x*tile_size+2,y*tile_size+2)
 	self.add_child(new_item)
