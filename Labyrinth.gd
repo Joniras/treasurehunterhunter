@@ -1,7 +1,7 @@
 extends Node2D
 
 # only kind of works with odd numbers
-const LABYRINTH_HEIGHT = 21
+const LABYRINTH_HEIGHT = 25
 # only kind of works with odd numbers
 const LABYRINTH_WIDTH = 25
 
@@ -23,13 +23,16 @@ func _ready():
 	initLabyrinth()
 	
 	# Start from 1, 1
-	generateAndDrawLabyrinth(Vector2(1, 1))
+	generateLabyrinth(Vector2(1, 1))
 	
 	# now we have a quadrant ready for player 1 in the labyrinth list
 	# mirror it, then we get the maze for player 2
 	
 	for i in LABYRINTH_WIDTH:
 		for j in LABYRINTH_HEIGHT:
+			# upper left
+			drawTile(Vector2(i, j), WALL_TILE if labyrinth[i][j] == WALL else PASSAGE_TILE)
+			
 			# upper right
 			drawTile(Vector2(LABYRINTH_WIDTH + i, j), WALL_TILE if labyrinth[LABYRINTH_WIDTH - 1 - i][j] == WALL else PASSAGE_TILE)
 			
@@ -42,10 +45,10 @@ func _ready():
 			
 	
 
-# using Randomized Prim's Algorithm to generate a maze
-func generateAndDrawLabyrinth(startingCell: Vector2):
+# using Randomized Prim's Algorithm to generate a labyrinth inside the
+# labyrinth matrix
+func generateLabyrinth(startingCell: Vector2):
 	labyrinth[startingCell.x][startingCell.y] = PASSAGE
-	drawTile(startingCell, PASSAGE_TILE)
 	
 	pendingCells = getNeighbouringCellsInState(startingCell, WALL, 1)
 
@@ -67,16 +70,19 @@ func generateAndDrawLabyrinth(startingCell: Vector2):
 			labyrinth[randomWall.x][randomWall.y] = PASSAGE
 			labyrinth[possibleCell.x][possibleCell.y] = PASSAGE
 			
-			drawTile(randomWall, PASSAGE_TILE)
-			drawTile(possibleCell, PASSAGE_TILE)
-			
 			pendingCells.append_array(getNeighbouringCellsInState(possibleCell, WALL))
 			
 		pendingCells.remove(randomWallIndex)
 		
 	# add starting Room and end room in the labyrinth
-	drawStartingRoom()
-	drawEndRoom()
+	var startAndEndPositions = [Vector2(0, 0), Vector2(0, 1), Vector2(1, 0),
+		Vector2(LABYRINTH_WIDTH - 2, LABYRINTH_HEIGHT - 1),
+		Vector2(LABYRINTH_WIDTH - 1, LABYRINTH_HEIGHT - 1),
+		Vector2(LABYRINTH_WIDTH - 1, LABYRINTH_HEIGHT - 2)]
+	
+	for pos in startAndEndPositions:
+		labyrinth[pos.x][pos.y] = PASSAGE
+	
 
 # inits the quadrant of the whole labyrinth with wall tiles
 func initLabyrinth():
@@ -118,21 +124,6 @@ func getNeighbouringCellsInState(cell: Vector2, state: int = WALL, distance: int
 
 func checkBounds(cell: Vector2):
 	return cell.x > 0 && cell.x < LABYRINTH_WIDTH &&  cell.y > 0 && cell.y < LABYRINTH_HEIGHT
-	
-func drawStartingRoom():
-	var startingPositions = [Vector2(0, 0), Vector2(0, 1), Vector2(1, 0)]
-	for pos in startingPositions:
-		drawTile(pos, PASSAGE_TILE)
-		labyrinth[pos.x][pos.y] = PASSAGE
-	
-func drawEndRoom():
-	var endingPositions = [Vector2(LABYRINTH_WIDTH - 2, LABYRINTH_HEIGHT - 1),
-		Vector2(LABYRINTH_WIDTH - 1, LABYRINTH_HEIGHT - 1),
-		Vector2(LABYRINTH_WIDTH - 1, LABYRINTH_HEIGHT - 2)]
-		
-	for pos in endingPositions:
-		drawTile(pos, PASSAGE_TILE)
-		labyrinth[pos.x][pos.y] = PASSAGE
 	
 # position: position in the tilemap
 # tile: position in the tileset
