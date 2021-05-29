@@ -17,17 +17,15 @@ onready var player2 = world.get_node("Player2")
 onready var player3 = world.get_node("Player3")
 onready var player4 = world.get_node("Player4")
 
-var itemConfig = ConfigFile.new()
+var config = ConfigFile.new()
 
-var playerConfig = ConfigFile.new()
 	
 var player = Array()
 
 var playerCount = 0
 
 func _ready():
-	itemConfig.load("res://config/items.cfg")
-	playerConfig.load("res://config/player.cfg")
+	config.load("res://config/game.cfg")
 	
 	viewport2.world_2d = viewport1.world_2d
 	camera1.target = player1
@@ -64,7 +62,7 @@ func setupPlayer(number):
 # caller is player id [1,2,3,4]
 func call_action(type,caller):
 	var affects = get_item_config(type, "affects")
-	print("Affects: "+affects)
+	print(type +" affects: "+str(affects))
 	match affects:
 		"ALL_OTHER":
 			call_all_other(type,caller)
@@ -104,10 +102,10 @@ func call_all(type):
 	for _player in player:
 		_player.get_action_called(type)
 
-func get_item_config(item, config):
-	return itemConfig.get_value(item, config, -1)
+func get_item_config(item, attribute):
+	return config.get_value(item, attribute, -1)
 	
-func get_player_config(config):
-	var _config = playerConfig.get_value("player", config, -1)
-	print("Got "+config+" result: "+str(_config))
+func get_player_config(attribute):
+	var _config = config.get_value("player", attribute, -1)
+	# print("Got "+attribute+" result: "+str(_config))
 	return _config

@@ -1,13 +1,13 @@
 extends KinematicBody2D
 
 export var id = 0
-export var speed = 250
 
 var lastPressedLeft = 0;
 var lastPressedRight = 0;
 var lastPressedUp = 0;
 var lastPressedDown = 0;
 onready var game = get_node("/root/Map")
+var speed = 250
 
 #### Items
 
@@ -62,7 +62,6 @@ func _physics_process(delta):
 	get_input()
 	
 	if(stun_timeLeft > 0):
-		print(stun_timeLeft)
 		stun_timeLeft -= delta*1000
 		if(stun_timeLeft <= 0):
 			speed = game.get_player_config("speed")
@@ -73,7 +72,7 @@ func _physics_process(delta):
 # var b = "text"
 
 func get_action_called(type):
-	print(str(id)+" got action called "+ type)
+	print("Player "+str(id)+" got action called "+ type)
 	if (type == "stun"):
 		speed = 0
 		stun_timeLeft += game.get_item_config(type, "duration")
