@@ -55,14 +55,6 @@ func get_input():
 	if(Input.is_action_just_pressed("action_%s"%id)):
 		do_action()
 	
-	
-	
-	
-	
-func on_win(body):
-	print(body)
-
-
 
 func do_action():
 	var type = "stun"
@@ -95,7 +87,7 @@ func get_action_called(type):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	connect("body_enter ", self, "on_win")
+	pass
 
 func adjustPositionToGrid():
 	position = position.snapped(Vector2.ONE * tile_size)

@@ -126,14 +126,14 @@ __meta__ = {
 
 [node name="ViewportContainer1" type="ViewportContainer" parent="Container/ViewportContainer/HBoxContainerTop"]
 visible = false
-margin_left = 958.0
-margin_right = 1916.0
-margin_bottom = 463.0
+margin_left = 642.0
+margin_right = 1281.0
+margin_bottom = 464.0
 size_flags_horizontal = 3
 stretch = true
 
 [node name="Viewport1" type="Viewport" parent="Container/ViewportContainer/HBoxContainerTop/ViewportContainer1"]
-size = Vector2( 958, 463 )
+size = Vector2( 958, 464 )
 handle_input_locally = false
 render_target_update_mode = 0
 
@@ -144,11 +144,6 @@ smoothing_enabled = true
 script = ExtResource( 3 )
 
 [node name="World" parent="Container/ViewportContainer/HBoxContainerTop/ViewportContainer1/Viewport1" instance=ExtResource( 1 )]
-
-[node name="ViewportControls1" type="Viewport" parent="Container/ViewportContainer/HBoxContainerTop/ViewportContainer1"]
-size = Vector2( 958, 463 )
-handle_input_locally = false
-render_target_update_mode = 0
 
 [node name="VSeparator" type="VSeparator" parent="Container/ViewportContainer/HBoxContainerTop"]
 margin_left = 958.0
@@ -393,7 +388,7 @@ __meta__ = {
 }
 
 [node name="ShowControlsTimer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 2.0
 one_shot = true
 autostart = true
 
