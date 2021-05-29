@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/treasure_chests_32x32.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 12, 12 )
+extents = Vector2( 2.4, 2.4 )
 
 [node name="KinematicBody2D" type="KinematicBody2D"]
 script = ExtResource( 1 )
