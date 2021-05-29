@@ -147,6 +147,9 @@ func start_round():
 	
 	
 func _process(delta):	
+	if Input.is_action_pressed("up_1"):
+		round_end_won(3)
+	
 	if current_global_state == STATE_SHOW_CONTROLS:
 		currentShowControlsTime = round(showControlsTimer.time_left)
 		
@@ -174,16 +177,12 @@ func _process(delta):
 		if (Input.is_action_just_released("up_4") || Input.is_action_just_released("down_4") || Input.is_action_just_released("left_4") || Input.is_action_just_released("right_4") || Input.is_action_just_released("action_4")):
 			hide_controls_border_for_player(4)
 			
-		# topTimeLabel.text = str(currentShowControlsTime)
-		# bottomTimeLabel.text = str(currentShowControlsTime)
+		topTimeLabel.text = str(currentShowControlsTime)
+		bottomTimeLabel.text = str(currentShowControlsTime)
 	
 	if current_global_state == STATE_BETWEEN_ROUNDS:
 		topTimeLabel.text = str(round($"ShowScoresTimer".time_left))
 		bottomTimeLabel.text = str(round($"ShowScoresTimer".time_left))
-		
-	if current_global_state == STATE_GAME_END:
-		topTimeLabel.text = "You ate the Treasure Hunter!"
-		bottomTimeLabel.text = "May he never hunt treasures again!"
 	
 
 func display_time():
@@ -268,14 +267,22 @@ func change_state(new_state):
 			for label in controls_labels:
 				label.text = "Wins: " + str(numberOfWins[i])
 				i += 1
-			
+				
+			# hide non-player containers
+			if playerCount == 2:
+				controlContainers[2].visible = false
+				controlContainers[3].visible = false
+				camera_viewports[2].visible = true
+				camera_viewports[3].visible = true
+				
+			if playerCount == 3:
+				controlContainers[3].visible = false
+				camera_viewports[3].visible = true
+				
 			# wait until timer is over and return to STATE_PLAYING
 			$"ShowScoresTimer".start(5)
 			
 		STATE_GAME_END:
-			hide_view_ports(camera_viewports)
-			show_view_ports(controlContainers)
-			
 			onGameOver()
 			
 
@@ -301,12 +308,18 @@ func load_control_schemes():
 		
 		player_id += 1
 		
+	# auskommentieren, wenn spieler wieder sortiert angezeigt werden sollen:
 	if playerCount == 2:
 		controlContainers[1].get_node("PlayerLabel").text = "Player 2"
 		
 	if playerCount == 3:
-		controlContainers[1].get_node("PlayerLabel").text = "Player 3"
-		controlContainers[2].get_node("PlayerLabel").text = "Player 2"
+		controlContainers[1].get_node("PlayerLabel").text = "Player 2"
+		controlContainers[2].get_node("PlayerLabel").text = "Player 3"
+		
+	if playerCount == 4:
+		controlContainers[1].get_node("PlayerLabel").text = "Player 2"
+		controlContainers[2].get_node("PlayerLabel").text = "Player 3"
+		controlContainers[3].get_node("PlayerLabel").text = "Player 4"
 		
 	while player_id <= 4:
 		camera_viewports[player_id - 1].visible = true
