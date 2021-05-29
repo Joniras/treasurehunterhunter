@@ -114,10 +114,22 @@ func show_view_ports(viewports_to_hide):
 func load_control_schemes():
 	# setup control screen for each player
 	var player_id = 1
-	
-	for label_node in controls_labels:
+	while player_id <= playerCount:
 		var controls_array = get_controls_for_player(player_id)
-		label_node.text = get_controls_as_string(controls_array)
+		controls_labels[player_id - 1].text = get_controls_as_string(controls_array)
+		controlContainers[player_id - 1].visible = true
+		
+		player_id += 1
+		
+	if playerCount == 2:
+		controlContainers[1].get_node("PlayerLabel").text = "Player 2"
+		
+	if playerCount == 3:
+		controlContainers[1].get_node("PlayerLabel").text = "Player 3"
+		controlContainers[2].get_node("PlayerLabel").text = "Player 2"
+		
+	while player_id <= 4:
+		camera_viewports[player_id - 1].visible = true
 		player_id += 1
 		
 func get_controls_for_player(player_id):

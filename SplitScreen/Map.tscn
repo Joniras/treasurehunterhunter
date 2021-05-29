@@ -80,6 +80,7 @@ __meta__ = {
 }
 
 [node name="ControlsPanelContainer1" type="PanelContainer" parent="Container/ViewportContainer/HBoxContainerTop"]
+visible = false
 margin_right = 958.0
 margin_bottom = 463.0
 size_flags_horizontal = 3
@@ -94,7 +95,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 1 )
 
-[node name="Label" type="Label" parent="Container/ViewportContainer/HBoxContainerTop/ControlsPanelContainer1"]
+[node name="PlayerLabel" type="Label" parent="Container/ViewportContainer/HBoxContainerTop/ControlsPanelContainer1"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 951.0
@@ -172,7 +173,8 @@ smoothing_enabled = true
 script = ExtResource( 3 )
 
 [node name="ControlsPanelContainer3" type="PanelContainer" parent="Container/ViewportContainer/HBoxContainerTop"]
-margin_left = 962.0
+visible = false
+margin_left = 4.0
 margin_right = 1920.0
 margin_bottom = 463.0
 size_flags_horizontal = 3
@@ -181,16 +183,16 @@ size_flags_vertical = 3
 [node name="Panel" type="Panel" parent="Container/ViewportContainer/HBoxContainerTop/ControlsPanelContainer3"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 951.0
+margin_right = 1909.0
 margin_bottom = 456.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 1 )
 
-[node name="Label" type="Label" parent="Container/ViewportContainer/HBoxContainerTop/ControlsPanelContainer3"]
+[node name="PlayerLabel" type="Label" parent="Container/ViewportContainer/HBoxContainerTop/ControlsPanelContainer3"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 951.0
+margin_right = 1909.0
 margin_bottom = 58.0
 size_flags_vertical = 0
 custom_fonts/font = ExtResource( 4 )
@@ -200,9 +202,9 @@ align = 1
 valign = 1
 
 [node name="lblInput" type="Label" parent="Container/ViewportContainer/HBoxContainerTop/ControlsPanelContainer3"]
-margin_left = 283.0
+margin_left = 762.0
 margin_top = 179.0
-margin_right = 674.0
+margin_right = 1153.0
 margin_bottom = 284.0
 size_flags_horizontal = 4
 custom_styles/normal = SubResource( 2 )
@@ -247,6 +249,7 @@ smoothing_enabled = true
 script = ExtResource( 3 )
 
 [node name="ControlsPanelContainer4" type="PanelContainer" parent="Container/ViewportContainer/HBoxContainerBottom"]
+visible = false
 margin_right = 958.0
 margin_bottom = 464.0
 size_flags_horizontal = 3
@@ -261,7 +264,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 1 )
 
-[node name="Label" type="Label" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer4"]
+[node name="PlayerLabel" type="Label" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer4"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 951.0
@@ -314,7 +317,8 @@ smoothing_enabled = true
 script = ExtResource( 3 )
 
 [node name="ControlsPanelContainer2" type="PanelContainer" parent="Container/ViewportContainer/HBoxContainerBottom"]
-margin_left = 962.0
+visible = false
+margin_left = 4.0
 margin_right = 1920.0
 margin_bottom = 464.0
 size_flags_horizontal = 3
@@ -323,16 +327,16 @@ size_flags_vertical = 3
 [node name="Panel" type="Panel" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer2"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 951.0
+margin_right = 1909.0
 margin_bottom = 457.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 1 )
 
-[node name="Label" type="Label" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer2"]
+[node name="PlayerLabel" type="Label" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer2"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 951.0
+margin_right = 1909.0
 margin_bottom = 58.0
 size_flags_vertical = 0
 custom_fonts/font = ExtResource( 4 )
@@ -342,9 +346,9 @@ align = 1
 valign = 1
 
 [node name="lblInput" type="Label" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer2"]
-margin_left = 283.0
+margin_left = 762.0
 margin_top = 179.0
-margin_right = 674.0
+margin_right = 1153.0
 margin_bottom = 284.0
 size_flags_horizontal = 4
 custom_styles/normal = SubResource( 2 )
