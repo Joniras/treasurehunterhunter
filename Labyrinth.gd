@@ -24,6 +24,7 @@ onready var player1 = $Player1
 onready var player2 = $Player2
 onready var player3 = $Player3
 onready var player4 = $Player4
+onready var playerHunter = $TreasureHunter
 
 func set_player_positions():
 	player1.position = Vector2(0,0)
@@ -34,6 +35,7 @@ func set_player_positions():
 	player3.adjustPositionToGrid()
 	player4.position = Vector2(0,LABYRINTH_HEIGHT*tile_size*2-tile_size)
 	player4.adjustPositionToGrid()
+	playerHunter.position = Vector2(LABYRINTH_HEIGHT*tile_size,LABYRINTH_HEIGHT*tile_size)
 	
 	
 func _ready():

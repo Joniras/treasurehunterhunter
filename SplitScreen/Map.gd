@@ -67,7 +67,8 @@ func round_end_time():
 	#TODO: call screen to go next round or won
 	pass
 
-func round_end_won():
+#is one of [1,2,3,4]
+func round_end_won(playerWon):
 	pass
 
 func _physics_process(delta):

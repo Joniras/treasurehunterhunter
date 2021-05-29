@@ -56,6 +56,14 @@ func get_input():
 		do_action()
 	
 	
+	
+	
+	
+func on_win(body):
+	print(body)
+
+
+
 func do_action():
 	var type = "stun"
 	game.call_action(type, id)
@@ -69,7 +77,7 @@ func _physics_process(delta):
 			speed = game.get_config("player","speed")
 			
 	if(velo.x != 0 || velo.y != 0): # only do tweening of any movement is available at all
-		if(OS.get_ticks_msec()-lastInput >= (1.0/speed as float)*1000):
+		if(speed > 0 && OS.get_ticks_msec()-lastInput >= (1.0/speed as float)*1000):
 			lastInput = OS.get_ticks_msec()
 			move(velo)
 		
@@ -87,7 +95,7 @@ func get_action_called(type):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	connect("body_enter ", self, "on_win")
 
 func adjustPositionToGrid():
 	position = position.snapped(Vector2.ONE * tile_size)
@@ -100,20 +108,22 @@ func setup():
 func move(dir):
 	ray.cast_to = velo * tile_size
 	ray.force_raycast_update()
+	
 	if !ray.is_colliding():
 		move_tween(dir)
-
+	else:
+		if(ray.get_collider().name == "TreasureHunter"):
+			game.round_end_won(id)
 var newPos
 var lastInput = OS.get_ticks_msec()
 
 func move_tween(dir):
-	if(speed > 0):
-		newPos = newPos + dir * tile_size
-		tween.interpolate_property(self, "position",
-			position, newPos,
-			(1.0/speed as float), Tween.TRANS_LINEAR, Tween.TRANS_LINEAR)
-			
-		tween.start()
+	newPos = newPos + dir * tile_size
+	tween.interpolate_property(self, "position",
+		position, newPos,
+		(1.0/speed as float), Tween.TRANS_LINEAR, Tween.TRANS_LINEAR)
+		
+	tween.start()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
