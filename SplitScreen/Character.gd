@@ -13,20 +13,20 @@ var velo = Vector2()
 func get_input():
 	if(Input.is_action_just_pressed("left_%s"%id)):
 		lastPressedLeft = OS.get_ticks_msec();
-	elif (Input.is_action_just_pressed('right_%s'%id)):
+	if (Input.is_action_just_pressed('right_%s'%id)):
 		lastPressedRight = OS.get_ticks_msec();
-	elif(Input.is_action_just_pressed('up_%s'%id)):
+	if(Input.is_action_just_pressed('up_%s'%id)):
 		lastPressedUp = OS.get_ticks_msec();
-	elif(Input.is_action_just_pressed('down_%s'%id)):
+	if(Input.is_action_just_pressed('down_%s'%id)):
 		lastPressedDown = OS.get_ticks_msec();
 		
 	if(Input.is_action_just_released("left_%s"%id)):
 		lastPressedLeft = 0;
-	elif (Input.is_action_just_released('right_%s'%id)):
+	if (Input.is_action_just_released('right_%s'%id)):
 		lastPressedRight = 0;
-	elif(Input.is_action_just_released('up_%s'%id)):
+	if(Input.is_action_just_released('up_%s'%id)):
 		lastPressedUp = 0;
-	elif(Input.is_action_just_released('down_%s'%id)):
+	if(Input.is_action_just_released('down_%s'%id)):
 		lastPressedDown = 0;
 		
 	# get the last pressed button
@@ -41,9 +41,15 @@ func get_input():
 			velo.y -= 1
 		if(lastPressedDown == lastPressed):
 			velo.y += 1
-			
+		
 	velo = velo.normalized()*speed
+	if(Input.is_action_just_pressed("action_%s"%id)):
+		do_action()
 	
+	
+func do_action():
+	var type = "stun"
+	get_node("/root/Map").call_action(type, id)
 	
 func _physics_process(delta):
 	get_input()

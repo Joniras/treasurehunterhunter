@@ -5,7 +5,7 @@
 [ext_resource path="res://SplitScreen/Camera2D.gd" type="Script" id=3]
 [ext_resource path="res://blockbusta.tres" type="DynamicFont" id=4]
 
-[sub_resource type="StyleBoxLine" id=3]
+[sub_resource type="StyleBoxLine" id=1]
 thickness = 6
 vertical = true
 
@@ -15,7 +15,7 @@ thickness = 6
 [node name="Map" type="Node"]
 script = ExtResource( 2 )
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+[node name="Container" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -25,7 +25,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PanelTop" type="Panel" parent="VBoxContainer2"]
+[node name="PanelTop" type="Panel" parent="Container"]
 margin_right = 1920.0
 margin_bottom = 74.0
 size_flags_vertical = 3
@@ -34,7 +34,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lblTimeGlobal" type="Label" parent="VBoxContainer2/PanelTop"]
+[node name="lblTimeGlobal" type="Label" parent="Container/PanelTop"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -50,7 +50,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2"]
+[node name="ViewportContainer" type="VBoxContainer" parent="Container"]
 margin_top = 74.0
 margin_right = 1920.0
 margin_bottom = 1005.0
@@ -61,7 +61,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
+[node name="HBoxContainerTop" type="HBoxContainer" parent="Container/ViewportContainer"]
 margin_right = 1920.0
 margin_bottom = 463.0
 size_flags_vertical = 3
@@ -71,54 +71,54 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ViewportContainer1" type="ViewportContainer" parent="VBoxContainer2/VBoxContainer/HBoxContainer"]
+[node name="ViewportContainer1" type="ViewportContainer" parent="Container/ViewportContainer/HBoxContainerTop"]
 margin_right = 958.0
 margin_bottom = 463.0
 size_flags_horizontal = 3
 stretch = true
 
-[node name="Viewport1" type="Viewport" parent="VBoxContainer2/VBoxContainer/HBoxContainer/ViewportContainer1"]
+[node name="Viewport1" type="Viewport" parent="Container/ViewportContainer/HBoxContainerTop/ViewportContainer1"]
 size = Vector2( 958, 463 )
 handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Camera2D" type="Camera2D" parent="VBoxContainer2/VBoxContainer/HBoxContainer/ViewportContainer1/Viewport1"]
+[node name="Camera2D" type="Camera2D" parent="Container/ViewportContainer/HBoxContainerTop/ViewportContainer1/Viewport1"]
 current = true
 smoothing_enabled = true
 script = ExtResource( 3 )
 
-[node name="World" parent="VBoxContainer2/VBoxContainer/HBoxContainer/ViewportContainer1/Viewport1" instance=ExtResource( 1 )]
+[node name="World" parent="Container/ViewportContainer/HBoxContainerTop/ViewportContainer1/Viewport1" instance=ExtResource( 1 )]
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer2/VBoxContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="Container/ViewportContainer/HBoxContainerTop"]
 margin_left = 958.0
 margin_right = 962.0
 margin_bottom = 463.0
-custom_styles/separator = SubResource( 3 )
+custom_styles/separator = SubResource( 1 )
 
-[node name="ViewportContainer3" type="ViewportContainer" parent="VBoxContainer2/VBoxContainer/HBoxContainer"]
+[node name="ViewportContainer3" type="ViewportContainer" parent="Container/ViewportContainer/HBoxContainerTop"]
 margin_left = 962.0
 margin_right = 1920.0
 margin_bottom = 463.0
 size_flags_horizontal = 3
 stretch = true
 
-[node name="Viewport3" type="Viewport" parent="VBoxContainer2/VBoxContainer/HBoxContainer/ViewportContainer3"]
+[node name="Viewport3" type="Viewport" parent="Container/ViewportContainer/HBoxContainerTop/ViewportContainer3"]
 size = Vector2( 958, 463 )
 handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Camera2D" type="Camera2D" parent="VBoxContainer2/VBoxContainer/HBoxContainer/ViewportContainer3/Viewport3"]
+[node name="Camera2D" type="Camera2D" parent="Container/ViewportContainer/HBoxContainerTop/ViewportContainer3/Viewport3"]
 current = true
 smoothing_enabled = true
 script = ExtResource( 3 )
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer2/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Container/ViewportContainer"]
 margin_top = 463.0
 margin_right = 1920.0
 margin_bottom = 467.0
 custom_styles/separator = SubResource( 2 )
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
+[node name="HBoxContainerBottom" type="HBoxContainer" parent="Container/ViewportContainer"]
 margin_top = 467.0
 margin_right = 1920.0
 margin_bottom = 931.0
@@ -126,46 +126,44 @@ size_flags_vertical = 3
 custom_constants/separation = 0
 alignment = 1
 
-[node name="ViewportContainer4" type="ViewportContainer" parent="VBoxContainer2/VBoxContainer/HBoxContainer2"]
+[node name="ViewportContainer4" type="ViewportContainer" parent="Container/ViewportContainer/HBoxContainerBottom"]
 margin_right = 958.0
 margin_bottom = 464.0
 size_flags_horizontal = 3
 stretch = true
 
-[node name="Viewport4" type="Viewport" parent="VBoxContainer2/VBoxContainer/HBoxContainer2/ViewportContainer4"]
+[node name="Viewport4" type="Viewport" parent="Container/ViewportContainer/HBoxContainerBottom/ViewportContainer4"]
 size = Vector2( 958, 464 )
-handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Camera2D" type="Camera2D" parent="VBoxContainer2/VBoxContainer/HBoxContainer2/ViewportContainer4/Viewport4"]
+[node name="Camera2D" type="Camera2D" parent="Container/ViewportContainer/HBoxContainerBottom/ViewportContainer4/Viewport4"]
 current = true
 smoothing_enabled = true
 script = ExtResource( 3 )
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer2/VBoxContainer/HBoxContainer2"]
+[node name="VSeparator" type="VSeparator" parent="Container/ViewportContainer/HBoxContainerBottom"]
 margin_left = 958.0
 margin_right = 962.0
 margin_bottom = 464.0
-custom_styles/separator = SubResource( 3 )
+custom_styles/separator = SubResource( 1 )
 
-[node name="ViewportContainer2" type="ViewportContainer" parent="VBoxContainer2/VBoxContainer/HBoxContainer2"]
+[node name="ViewportContainer2" type="ViewportContainer" parent="Container/ViewportContainer/HBoxContainerBottom"]
 margin_left = 962.0
 margin_right = 1920.0
 margin_bottom = 464.0
 size_flags_horizontal = 3
 stretch = true
 
-[node name="Viewport2" type="Viewport" parent="VBoxContainer2/VBoxContainer/HBoxContainer2/ViewportContainer2"]
+[node name="Viewport2" type="Viewport" parent="Container/ViewportContainer/HBoxContainerBottom/ViewportContainer2"]
 size = Vector2( 958, 464 )
-handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Camera2D" type="Camera2D" parent="VBoxContainer2/VBoxContainer/HBoxContainer2/ViewportContainer2/Viewport2"]
+[node name="Camera2D" type="Camera2D" parent="Container/ViewportContainer/HBoxContainerBottom/ViewportContainer2/Viewport2"]
 current = true
 smoothing_enabled = true
 script = ExtResource( 3 )
 
-[node name="PanelBottom" type="Panel" parent="VBoxContainer2"]
+[node name="PanelBottom" type="Panel" parent="Container"]
 margin_top = 1005.0
 margin_right = 1920.0
 margin_bottom = 1080.0
@@ -175,7 +173,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lblTimeGlobal" type="Label" parent="VBoxContainer2/PanelBottom"]
+[node name="lblTimeGlobal" type="Label" parent="Container/PanelBottom"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
