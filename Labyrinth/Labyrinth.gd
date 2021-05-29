@@ -32,17 +32,14 @@ func _ready():
 		for j in LABYRINTH_HEIGHT:
 			# upper left
 			drawTile(Vector2(i, j), WALL_TILE if labyrinth[i][j] == WALL else PASSAGE_TILE)
-			
 			# upper right
 			drawTile(Vector2(LABYRINTH_WIDTH + i, j), WALL_TILE if labyrinth[LABYRINTH_WIDTH - 1 - i][j] == WALL else PASSAGE_TILE)
-			
 			# lower left
 			drawTile(Vector2(i, LABYRINTH_HEIGHT + j), WALL_TILE if labyrinth[i][LABYRINTH_HEIGHT - 1 - j] == WALL else PASSAGE_TILE)
-			
 			# lower right
 			drawTile(Vector2(LABYRINTH_WIDTH + i, LABYRINTH_HEIGHT + j), WALL_TILE if labyrinth[LABYRINTH_WIDTH - 1 - i][LABYRINTH_HEIGHT - 1 - j] == WALL else PASSAGE_TILE)
 			
-			
+	print($"/root/ShortestPath".getDirectionOfShortestPath(labyrinth, Vector2(1, 1), Vector2(LABYRINTH_WIDTH - 1, LABYRINTH_HEIGHT- 1)))
 	
 
 # using Randomized Prim's Algorithm to generate a labyrinth inside the

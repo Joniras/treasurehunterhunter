@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Labyrinth.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Labyrinth/Labyrinth.tscn" type="PackedScene" id=1]
 [ext_resource path="res://SplitScreen/Map.gd" type="Script" id=2]
 [ext_resource path="res://SplitScreen/Camera2D.gd" type="Script" id=3]
 [ext_resource path="res://blockbusta.tres" type="DynamicFont" id=4]

@@ -24,6 +24,10 @@ config/name="treasurehunterhunter"
 run/main_scene="res://StartPage.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+ShortestPath="*res://PowerUps/ShortestPath.gd"
+
 [display]
 
 window/size/width=1920
