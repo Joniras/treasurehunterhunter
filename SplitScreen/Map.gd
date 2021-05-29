@@ -18,6 +18,7 @@ onready var player3 = world.get_node("Player3")
 onready var player4 = world.get_node("Player4")
 
 var config = ConfigFile.new()
+var items = ConfigFile.new()
 
 	
 var player = Array()
@@ -26,6 +27,7 @@ var playerCount = 0
 
 func _ready():
 	config.load("res://config/game.cfg")
+	items.load("res://config/items.cfg")
 	
 	viewport2.world_2d = viewport1.world_2d
 	camera1.target = player1
@@ -103,9 +105,9 @@ func call_all(type):
 		_player.get_action_called(type)
 
 func get_item_config(item, attribute):
-	return config.get_value(item, attribute, -1)
+	return items.get_value(item, attribute, -1)
 	
-func get_player_config(attribute):
+func get_config(attribute):
 	var _config = config.get_value("player", attribute, -1)
-	# print("Got "+attribute+" result: "+str(_config))
+	print("Got "+attribute+" result: "+str(_config))
 	return _config

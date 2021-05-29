@@ -433,7 +433,6 @@ format = 1
 script = ExtResource( 2 )
 
 [node name="Player1" parent="." instance=ExtResource( 3 )]
-position = Vector2( -9.74447, -7.08332 )
 id = 1
 
 [node name="Player2" parent="." instance=ExtResource( 3 )]
