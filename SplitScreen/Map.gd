@@ -4,6 +4,8 @@ extends Node
 const STATE_SHOW_CONTROLS = 0
 const STATE_PLAYING = 1
 const STATE_BETWEEN_ROUNDS = 2
+const STATE_GAME_END = 3
+
 var current_global_state = STATE_SHOW_CONTROLS
 
 onready var viewport1 = $"Container/ViewportContainer/HBoxContainerTop/ViewportContainer1/Viewport1"
@@ -48,7 +50,10 @@ var remainingTime = 0
 var player = Array()
 
 onready var showControlsTimer = $"ShowControlsTimer"
-var currentTime = 10
+var currentShowControlsTime = 10
+
+onready var showScoresTimer = $"ShowScoresTimer"
+var currentScoresTime = 5
 
 onready var controls_labels = [controls_1, controls_2, controls_3, controls_4]
 onready var controlContainers = [controlsContainer1, controlsContainer2, controlsContainer3, controlsContainer4]
@@ -58,6 +63,15 @@ onready var camera_viewports = [viewportContainer1, viewportContainer2, viewport
 var colors = ["#D50000", "#2962FF", "#00C853", "#FFD600"]
 
 var playerCount = 0
+
+# index i = number of wins for player i+1
+var numberOfWins = [0, 0, 0, 0]
+var rng = RandomNumberGenerator.new()
+
+# index of player which got the most points!
+var winner = null
+
+signal roundOver(recreateMap)
 
 func _ready():
 	config.load("res://config/game.cfg")
@@ -88,35 +102,53 @@ func _ready():
 		player4.get_node("Sprite").visible = true
 	else:
 		world.remove_child(player4)
-	start_round()
+	
+	
+	showControlsTimer.start()
 	load_control_schemes()
+	
 	
 func setupPlayer(number):
 	playerCount = number
 		
+		
 func round_end_time():
-	#TODO: call screen to go next round or won
-	pass
+	emit_signal("roundOver", false)
+	change_state(STATE_BETWEEN_ROUNDS)
+
 
 #is one of [1,2,3,4]
 func round_end_won(playerWon):
-	pass
+	emit_signal("roundOver", true)
+	
+	numberOfWins[playerWon - 1] += 1
+	
+	if numberOfWins[playerWon - 1] >= 3:
+		winner = playerWon
+		change_state(STATE_GAME_END)
+	else:
+		change_state(STATE_BETWEEN_ROUNDS)
+	
+
 
 func _physics_process(delta):
-	if(remainingTime>0):
-		remainingTime-= delta
-	if(remainingTime <= 0):
-		round_end_time()
-	else:
-		display_time()
+	if (current_global_state == STATE_PLAYING):
+		if(remainingTime>0):
+			remainingTime-= delta
+		if(remainingTime <= 0):
+			round_end_time()
+		else:
+			display_time()
+		
 		
 func start_round():
 	remainingTime = get_config("game","roundTime")
 	world.set_player_positions()
 	
-func _process(delta):
-	if current_global_state == STATE_SHOW_CONTROLS:	
-		currentTime = round(showControlsTimer.time_left)
+	
+func _process(delta):	
+	if current_global_state == STATE_SHOW_CONTROLS:
+		currentShowControlsTime = round(showControlsTimer.time_left)
 		
 		if (Input.is_action_pressed("up_1") || Input.is_action_pressed("down_1") || Input.is_action_pressed("left_1") || Input.is_action_pressed("right_1") || Input.is_action_pressed("action_1")):
 			show_controls_border_for_player_id(1)
@@ -142,19 +174,28 @@ func _process(delta):
 		if (Input.is_action_just_released("up_4") || Input.is_action_just_released("down_4") || Input.is_action_just_released("left_4") || Input.is_action_just_released("right_4") || Input.is_action_just_released("action_4")):
 			hide_controls_border_for_player(4)
 			
-	$"Container/PanelTop/lblTimeGlobal".text = str(currentTime)
-	$"Container/PanelBottom/lblTimeGlobal".text = str(currentTime)
+		# topTimeLabel.text = str(currentShowControlsTime)
+		# bottomTimeLabel.text = str(currentShowControlsTime)
 	
+	if current_global_state == STATE_BETWEEN_ROUNDS:
+		topTimeLabel.text = str(round($"ShowScoresTimer".time_left))
+		bottomTimeLabel.text = str(round($"ShowScoresTimer".time_left))
 		
+	if current_global_state == STATE_GAME_END:
+		topTimeLabel.text = "You ate the Treasure Hunter!"
+		bottomTimeLabel.text = "May he never hunt treasures again!"
+	
+
 func display_time():
 	var timeString
 	if(remainingTime > 10):
 		timeString = str(remainingTime as int)
-	else:	
+	else:
 		timeString = str(floor(remainingTime *100)/100)
 	
 	topTimeLabel.text = timeString
 	bottomTimeLabel.text = timeString
+	
 	
 # caller is player id [1,2,3,4]
 func call_action(type,caller):
@@ -172,6 +213,7 @@ func call_action(type,caller):
 		"SELF":
 			call_self(type, caller)
 
+
 func call_all_other(type, caller):
 	var index = 0
 	for _player in player:
@@ -183,10 +225,11 @@ func call_all_other(type, caller):
 func call_self(type, caller):
 	player[caller-1].get_action_called(type)
 
+
 func call_random(type):
 	player[rng.randi_range(0, playerCount)].get_action_called(type)
 
-var rng = RandomNumberGenerator.new()
+
 
 func call_random_other(type, caller):
 	var to = caller-1
@@ -199,20 +242,41 @@ func call_all(type):
 	for _player in player:
 		_player.get_action_called(type)
 
+
 func get_item_config(item, attribute):
 	return items.get_value(item, attribute, -1)
 	
+	
 func get_config(section, attribute):
 	var _config = config.get_value(section, attribute, -1)
-	print("Got "+section+":"+attribute+" result: "+str(_config))
+	print("Got "+section+":"+attribute+" result: " + str(_config))
 	return _config
 	
+	
 func change_state(new_state):
+	current_global_state = new_state
 	match(new_state):
 		STATE_PLAYING:
 			hide_view_ports(controlContainers)
 			show_view_ports(camera_viewports)
+			start_round()
+		STATE_BETWEEN_ROUNDS:
+			hide_view_ports(camera_viewports)
+			show_view_ports(controlContainers)
+			# show labels indicating points
+			var i = 0
+			for label in controls_labels:
+				label.text = "Wins: " + str(numberOfWins[i])
+				i += 1
 			
+			# wait until timer is over and return to STATE_PLAYING
+			$"ShowScoresTimer".start(5)
+			
+		STATE_GAME_END:
+			hide_view_ports(camera_viewports)
+			show_view_ports(controlContainers)
+			
+			onGameOver()
 			
 
 # hides all passed viewports
@@ -220,10 +284,12 @@ func hide_view_ports(viewports_to_hide):
 	for viewport in viewports_to_hide:
 		viewport.visible = false
 		
+		
 # shows all passed viewports
 func show_view_ports(viewports_to_show):
 	for viewport in viewports_to_show:
 		viewport.visible = true
+
 
 func load_control_schemes():
 	# setup control screen for each player
@@ -245,6 +311,7 @@ func load_control_schemes():
 	while player_id <= 4:
 		camera_viewports[player_id - 1].visible = true
 		player_id += 1
+		
 		
 func get_controls_for_player(player_id):
 	var key_up = "W"
@@ -279,9 +346,7 @@ func get_controls_for_player(player_id):
 
 func get_controls_as_string(controls_array):
 	return "MOVEMENT: " + controls_array[0] + " " + controls_array[1] + " " + controls_array[2] + " " + controls_array[3] + "\nACTION: " + controls_array[4]
-
-func _on_ShowControlsTimer_timeout():
-	change_state(STATE_PLAYING)
+	
 	
 func show_controls_border_for_player_id(player_id):
 	var panelNode = controls_labels[player_id - 1].get_parent().get_node("Panel")
@@ -291,9 +356,26 @@ func show_controls_border_for_player_id(player_id):
 	new_style.set_border_width_all(8)
 	panelNode.set('custom_styles/panel', new_style)
 
+
 func hide_controls_border_for_player(player_id):
 	var panelNode = controls_labels[player_id - 1].get_parent().get_node("Panel")
 	var new_style = StyleBoxFlat.new()
 	new_style.set_bg_color("#66545e")
 	new_style.set_border_width_all(0)
 	panelNode.set('custom_styles/panel', new_style)
+
+
+func _on_ShowScoresTimer_timeout():
+	change_state(STATE_PLAYING)
+
+
+func _on_ShowControlsTimer_timeout():
+	change_state(STATE_PLAYING)
+
+
+func onGameOver():
+	var gameOver = load("res://GameOver.tscn").instance()
+	gameOver.setPlayerCount(playerCount)
+	gameOver.setWinner(winner)
+	get_node("/root").add_child(gameOver)
+	get_node("/root").remove_child(self)
