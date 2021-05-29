@@ -7,6 +7,8 @@ var startPage
 onready var winnerLabel = $"VBoxContainer/Panel2/VBoxContainer/winnerLabel"
 
 func _ready():
+	if !MenuBgmAudioPlayer.playing:
+		MenuBgmAudioPlayer.play()
 	startPage = load("res://StartPage.tscn").instance()
 	winnerLabel.text = "Player " + str(winner)
 

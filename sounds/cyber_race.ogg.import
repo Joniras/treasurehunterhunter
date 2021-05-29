@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/cyber_race.ogg-a3c3d0217d2086375f8665db384c2798.oggstr"
+
+[deps]
+
+source_file="res://sounds/cyber_race.ogg"
+dest_files=[ "res://.import/cyber_race.ogg-a3c3d0217d2086375f8665db384c2798.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

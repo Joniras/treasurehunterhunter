@@ -78,9 +78,18 @@ var rng = RandomNumberGenerator.new()
 # index of player which got the most points!
 var winner = null
 
+# used for countdown
+const WAITING_TIMEOUT = 5
+var nextRoundedInt = WAITING_TIMEOUT
+
 signal roundOver(recreateMap)
 
 func _ready():
+	
+	#stop all players
+	MenuBgmAudioPlayer.stop()
+	GameBgmAudioPlayer.stop()
+	
 	config.load("res://config/game.cfg")
 	items.load("res://config/items.cfg")
 	viewport2.world_2d = viewport1.world_2d
@@ -117,12 +126,10 @@ func _ready():
 	
 func setupPlayer(number):
 	playerCount = number
-		
-		
+
 func round_end_time():
 	emit_signal("roundOver", false)
 	change_state(STATE_BETWEEN_ROUNDS)
-
 
 #is one of [1,2,3,4]
 func round_end_won(playerWon):
@@ -135,8 +142,6 @@ func round_end_won(playerWon):
 		change_state(STATE_GAME_END)
 	else:
 		change_state(STATE_BETWEEN_ROUNDS)
-	
-
 
 func remove_item(id):
 	for N in world.get_children():
@@ -174,7 +179,7 @@ func refreshItemView(items, id):
 		index += increment
 		itemBox.add_child(new_item)
 		pass
-			
+
 func _physics_process(delta):
 	if (current_global_state == STATE_PLAYING):
 		if(remainingTime>0):
@@ -183,16 +188,21 @@ func _physics_process(delta):
 			round_end_time()
 		else:
 			display_time()
-		
-		
+
 func start_round():
 	remainingTime = get_config("game","roundTime")
 	world.set_player_positions()
-	
-	
+
 func _process(delta):	
 	if current_global_state == STATE_SHOW_CONTROLS:
 		currentShowControlsTime = round(showControlsTimer.time_left)
+		
+		if (!GameBgmAudioPlayer.playing && showControlsTimer.time_left <= 2):
+			GameBgmAudioPlayer.play()
+			
+		if (showControlsTimer.time_left <= nextRoundedInt && nextRoundedInt >= 0):
+			nextRoundedInt -= 1
+			$"CountdownAudioPlayer".play()
 		
 		if (Input.is_action_pressed("up_1") || Input.is_action_pressed("down_1") || Input.is_action_pressed("left_1") || Input.is_action_pressed("right_1") || Input.is_action_pressed("action_1")):
 			show_controls_border_for_player_id(1)
@@ -224,6 +234,13 @@ func _process(delta):
 	if current_global_state == STATE_BETWEEN_ROUNDS:
 		topTimeLabel.text = str(round($"ShowScoresTimer".time_left))
 		bottomTimeLabel.text = str(round($"ShowScoresTimer".time_left))
+		
+		if (!GameBgmAudioPlayer.playing && $"ShowScoresTimer".time_left <= 2):
+			GameBgmAudioPlayer.play()
+			
+		if ($"ShowScoresTimer".time_left <= nextRoundedInt && nextRoundedInt >= 0):
+			nextRoundedInt -= 1
+			$"CountdownAudioPlayer".play()
 		
 	if current_global_state == STATE_GAME_END:
 		topTimeLabel.text = "You ate the Treasure Hunter!"
@@ -298,6 +315,7 @@ func get_config(section, attribute):
 	
 	
 func change_state(new_state):
+	nextRoundedInt = WAITING_TIMEOUT
 	current_global_state = new_state
 	match(new_state):
 		STATE_PLAYING:
