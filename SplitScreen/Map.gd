@@ -29,6 +29,10 @@ onready var camera2 = $"Container/ViewportContainer/HBoxContainerBottom/Viewport
 onready var camera4 = $"Container/ViewportContainer/HBoxContainerBottom/ViewportContainer4/Viewport4/Camera2D"
 onready var world = $"Container/ViewportContainer/HBoxContainerTop/ViewportContainer1/Viewport1/World"
 
+
+onready var showControlsTimer = $"ShowControlsTimer"
+var currentTime = 10
+
 var player = Array()
 
 onready var controls_labels = [controls_1, controls_2, controls_3, controls_4]
@@ -58,8 +62,9 @@ func _ready():
 	load_control_schemes()
 	
 func _process(delta):
-	
-	if current_global_state == STATE_SHOW_CONTROLS:
+	if current_global_state == STATE_SHOW_CONTROLS:	
+		currentTime = round(showControlsTimer.time_left)
+		
 		if (Input.is_action_pressed("up_1") || Input.is_action_pressed("down_1") || Input.is_action_pressed("left_1") || Input.is_action_pressed("right_1") || Input.is_action_pressed("action_1")):
 			show_controls_border_for_player_id(1)
 			
@@ -83,6 +88,10 @@ func _process(delta):
 			
 		if (Input.is_action_just_released("up_4") || Input.is_action_just_released("down_4") || Input.is_action_just_released("left_4") || Input.is_action_just_released("right_4") || Input.is_action_just_released("action_4")):
 			hide_controls_border_for_player(4)
+			
+	$"Container/PanelTop/lblTimeGlobal".text = str(currentTime)
+	$"Container/PanelBottom/lblTimeGlobal".text = str(currentTime)
+	
 
 func setupPlayer(number):
 	playerCount = number
