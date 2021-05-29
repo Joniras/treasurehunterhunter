@@ -191,9 +191,6 @@ func start_round():
 	
 	
 func _process(delta):	
-	if Input.is_action_pressed("up_1"):
-		round_end_won(3)
-	
 	if current_global_state == STATE_SHOW_CONTROLS:
 		currentShowControlsTime = round(showControlsTimer.time_left)
 		
