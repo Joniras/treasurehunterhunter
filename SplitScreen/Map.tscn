@@ -43,21 +43,59 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lblTimeGlobal" type="Label" parent="Container/PanelTop"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -960.0
-margin_top = -25.5
-margin_right = 960.0
-margin_bottom = 25.5
+[node name="HBoxContainer" type="HBoxContainer" parent="Container/PanelTop"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Container/PanelTop/HBoxContainer"]
+margin_right = 637.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player1ItemContainer" type="HBoxContainer" parent="Container/PanelTop/HBoxContainer/HBoxContainer2"]
+margin_right = 637.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="lblTimeGlobal" type="Label" parent="Container/PanelTop/HBoxContainer"]
+margin_left = 641.0
+margin_top = 11.0
+margin_right = 1278.0
+margin_bottom = 62.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
 custom_fonts/font = ExtResource( 4 )
 text = "0:34"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Container/PanelTop/HBoxContainer"]
+margin_left = 1282.0
+margin_right = 1920.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player3ItemContainer" type="HBoxContainer" parent="Container/PanelTop/HBoxContainer/HBoxContainer"]
+margin_left = 638.0
+margin_right = 638.0
+margin_bottom = 74.0
 
 [node name="ViewportContainer" type="VBoxContainer" parent="Container"]
 margin_top = 74.0
@@ -371,21 +409,55 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lblTimeGlobal" type="Label" parent="Container/PanelBottom"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -960.0
-margin_top = -25.5
-margin_right = 960.0
-margin_bottom = 25.5
+[node name="HBoxContainer" type="HBoxContainer" parent="Container/PanelBottom"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Container/PanelBottom/HBoxContainer"]
+margin_right = 637.0
+margin_bottom = 75.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player4ItemContainer" type="HBoxContainer" parent="Container/PanelBottom/HBoxContainer/HBoxContainer2"]
+margin_bottom = 75.0
+
+[node name="lblTimeGlobal" type="Label" parent="Container/PanelBottom/HBoxContainer"]
+margin_left = 641.0
+margin_top = 12.0
+margin_right = 1278.0
+margin_bottom = 63.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
 custom_fonts/font = ExtResource( 4 )
 text = "0:34"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Container/PanelBottom/HBoxContainer"]
+margin_left = 1282.0
+margin_right = 1920.0
+margin_bottom = 75.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player2ItemContainer" type="HBoxContainer" parent="Container/PanelBottom/HBoxContainer/HBoxContainer"]
+margin_left = 638.0
+margin_right = 638.0
+margin_bottom = 75.0
 
 [node name="ShowControlsTimer" type="Timer" parent="."]
 wait_time = 2.0

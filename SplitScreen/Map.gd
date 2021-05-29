@@ -37,8 +37,15 @@ onready var player2 = world.get_node("Player2")
 onready var player3 = world.get_node("Player3")
 onready var player4 = world.get_node("Player4")
 
-onready var topTimeLabel = $"Container/PanelTop/lblTimeGlobal"
-onready var bottomTimeLabel = $"Container/PanelBottom/lblTimeGlobal"
+onready var topTimeLabel = $"Container/PanelTop/HBoxContainer/lblTimeGlobal"
+onready var bottomTimeLabel = $"Container/PanelBottom/HBoxContainer/lblTimeGlobal"
+
+onready var items1 = $"Container/PanelTop/HBoxContainer/HBoxContainer2/Player1ItemContainer"
+onready var items2 = $"Container/PanelBottom/HBoxContainer/HBoxContainer/Player2ItemContainer"
+onready var items3 = $"Container/PanelTop/HBoxContainer/HBoxContainer/Player3ItemContainer"
+onready var items4 = $"Container/PanelBottom/HBoxContainer/HBoxContainer2/Player4ItemContainer"
+
+onready var item = preload("res://items/ItemImage.tscn")
 
 var config = ConfigFile.new()
 var items = ConfigFile.new()
@@ -102,6 +109,43 @@ func round_end_time():
 func round_end_won(playerWon):
 	pass
 
+func remove_item(id):
+	for N in world.get_children():
+		if(N.name == "Item_"+str(id)):
+			world.remove_child(N)
+			break
+
+func refreshItemView(items, id):
+	var itemBox
+	var start = 1
+	var increment = -0.2
+	match id:
+		1:
+			itemBox = items1
+			items.invert()
+			increment = 0.2
+			start = 1-(items.size()-1)*0.2
+		2:
+			itemBox = items2
+			items.invert()
+			increment = 0.2
+			start = 1-(items.size()-1)*0.2
+		3:
+			itemBox = items3
+		4:
+			itemBox = items4
+			
+	for N in itemBox.get_children():
+		itemBox.remove_child(N)
+	var index = start
+	for _item in items:
+		var new_item = item.instance()
+		new_item.texture = load("res://items/"+_item+"_item.png")
+		new_item.set_modulate(Color(1,1,1,index))
+		index += increment
+		itemBox.add_child(new_item)
+		pass
+			
 func _physics_process(delta):
 	if(remainingTime>0):
 		remainingTime-= delta
@@ -142,8 +186,8 @@ func _process(delta):
 		if (Input.is_action_just_released("up_4") || Input.is_action_just_released("down_4") || Input.is_action_just_released("left_4") || Input.is_action_just_released("right_4") || Input.is_action_just_released("action_4")):
 			hide_controls_border_for_player(4)
 			
-	$"Container/PanelTop/lblTimeGlobal".text = str(currentTime)
-	$"Container/PanelBottom/lblTimeGlobal".text = str(currentTime)
+	topTimeLabel.text = str(currentTime)
+	bottomTimeLabel.text = str(currentTime)
 	
 		
 func display_time():

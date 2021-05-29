@@ -11,6 +11,7 @@ const PASSAGE_TILE = Vector2(3,3)
 
 const WALL = 0
 const PASSAGE = 1
+const ITEM = 2
 
 var pendingCells: Array
 
@@ -25,6 +26,7 @@ onready var player2 = $Player2
 onready var player3 = $Player3
 onready var player4 = $Player4
 onready var playerHunter = $TreasureHunter
+onready var item = preload("res://items/Item.tscn")
 
 func set_player_positions():
 	player1.position = Vector2(0,0)
@@ -105,8 +107,51 @@ func generateLabyrinth(startingCell: Vector2):
 	
 	for pos in startAndEndPositions:
 		labyrinth[pos.x][pos.y] = PASSAGE
-	
+	sprinkleItems()
+	add_item_mirrored(1,1,"stun", 11)
 
+func sprinkleItems():
+	var countItems = randi()%10;
+	var types = ["stun","speed","bomb","light","wall"]
+	while countItems > 0:
+		countItems -= 1
+		var spotFound = false
+		while !spotFound:
+			var row = randi()%LABYRINTH_HEIGHT-1
+			var column = randi()%LABYRINTH_WIDTH-1
+			var walls = 0
+			if(labyrinth[column][row]== PASSAGE):
+				if(labyrinth[column+1][row] == WALL):
+					walls += 1
+				if(labyrinth[column-1][row] == WALL):
+					walls += 1
+				if(labyrinth[column][row+1] == WALL):
+					walls += 1
+				if(labyrinth[column][row-1] == WALL):
+					walls += 1
+				if(walls==3):
+					spotFound = true
+					add_item_mirrored(column,row,types[randi()%types.size()],countItems)
+					break
+	
+func add_item_mirrored(x,y,type,id):
+	add_item(x,y,type,str(id)+str(1))
+	add_item(2*LABYRINTH_WIDTH-x-1,y,type,str(id)+str(3))
+	add_item(x,2*LABYRINTH_HEIGHT-y-1,type,str(id)+str(4))
+	add_item(2*LABYRINTH_WIDTH-x-1,2*LABYRINTH_HEIGHT-y-1,type,str(id)+str(2))
+	labyrinth[x][y] = ITEM
+
+	
+func add_item(x,y, type, id):
+	print("Added Item @"+str(x)+","+str(y))
+	var new_item = item.instance()
+	new_item.type = type
+	new_item.name = "Item_"+str(id)
+	new_item.id = id
+	new_item.position = Vector2(x*tile_size+2,y*tile_size+2)
+	self.add_child(new_item)
+	
+	
 # inits the quadrant of the whole labyrinth with wall tiles
 func initLabyrinth():
 	labyrinth.resize(LABYRINTH_WIDTH)

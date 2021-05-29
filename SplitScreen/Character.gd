@@ -8,6 +8,7 @@ var lastPressedUp = 0;
 var lastPressedDown = 0;
 onready var game = get_node("/root/Map")
 var speed = 4 # gets changed anyway during startup
+var items = Array()
 
 onready var ray = $RayCast2D
 onready var tween = $Tween
@@ -57,9 +58,9 @@ func get_input():
 	
 
 func do_action():
-	var type = "stun"
-	game.call_action(type, id)
-	
+	if(items.size()>0):
+		game.call_action(items.pop_front(), id)
+		game.refreshItemView(items.duplicate(), id)
 func _physics_process(delta):
 	get_input()
 	
@@ -103,12 +104,24 @@ func move(dir):
 	
 	if !ray.is_colliding():
 		move_tween(dir)
-	else:
-		if(ray.get_collider().name == "TreasureHunter"):
+	elif "Item" in ray.get_collider().name:
+		move_tween(dir)
+		print("Player "+str(id)+" got item: "+ray.get_collider().type)
+		add_item(ray.get_collider().type)
+		game.remove_item(ray.get_collider().id)
+	elif(ray.get_collider().name == "TreasureHunter"):
 			game.round_end_won(id)
 var newPos
 var lastInput = OS.get_ticks_msec()
 
+
+func add_item(type):
+	items.push_front(ray.get_collider().type)
+	if(items.size() > game.get_config("player","itemCount")):
+		items.pop_back()
+	game.refreshItemView(items.duplicate(), id)
+	
+	
 func move_tween(dir):
 	newPos = newPos + dir * tile_size
 	tween.interpolate_property(self, "position",
