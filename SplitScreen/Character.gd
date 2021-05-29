@@ -44,15 +44,14 @@ func get_input():
 	velo = Vector2()
 	if(lastPressed != 0):
 		if(lastPressedLeft == lastPressed):
-			velo.x -= 1
-		if(lastPressedRight == lastPressed):
-			velo.x += 1
-		if(lastPressedUp == lastPressed):
-			velo.y -= 1
-		if(lastPressedDown == lastPressed):
-			velo.y += 1
+			velo = Vector2.LEFT
+		elif(lastPressedRight == lastPressed):
+			velo = Vector2.RIGHT
+		elif(lastPressedUp == lastPressed):
+			velo = Vector2.UP
+		elif(lastPressedDown == lastPressed):
+			velo = Vector2.DOWN
 		
-	velo = velo.normalized()*speed
 	if(Input.is_action_just_pressed("action_%s"%id)):
 		do_action()
 	
@@ -68,13 +67,14 @@ func _physics_process(delta):
 		stun_timeLeft -= delta*1000
 		if(stun_timeLeft <= 0):
 			speed = game.get_config("speed")
-	if tween.is_active():
-		return
+			
 	if(velo.x != 0 || velo.y != 0): # only do tweening of any movement is available at all
-		move(velo)
+		if(OS.get_ticks_msec()-lastInput >= (1.0/speed as float)*1000):
+			lastInput = OS.get_ticks_msec()
+			move(velo)
 		
 		
-	
+		
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -89,24 +89,32 @@ func get_action_called(type):
 func _ready():
 	position = position.snapped(Vector2.ONE * tile_size)
 	position += Vector2.ONE * tile_size/2
+	newPos = position
+	$Tween.connect("tween_completed ", self, "on_tween_completed")
+	
 	
 func setup():
 	speed = game.get_config("speed")
 	
+func on_tween_completed():
+	newPos = position
 
 func move(dir):
 	ray.cast_to = velo * tile_size
-	print(ray.cast_to)
 	ray.force_raycast_update()
 	if !ray.is_colliding():
 		move_tween(dir)
 
+var newPos
+var lastInput = OS.get_ticks_msec()
+
 func move_tween(dir):
 	if(speed > 0):
-		print("tweening")
+		newPos = newPos + dir * tile_size
 		tween.interpolate_property(self, "position",
-			position, position + dir * tile_size,
-			1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+			position, newPos,
+			(1.0/speed as float), Tween.TRANS_LINEAR, Tween.TRANS_LINEAR)
+			
 		tween.start()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
