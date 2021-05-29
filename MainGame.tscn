@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://blockbusta.tres" type="DynamicFont" id=1]
+[gd_scene format=2]
 
 [node name="MainGame" type="Node2D"]
 
@@ -32,41 +30,6 @@ margin_left = 960.0
 margin_top = 540.0
 margin_right = 1920.0
 margin_bottom = 1080.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PanelTop" type="Panel" parent="."]
-margin_right = 1920.0
-margin_bottom = 61.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="lblTimeGlobal" type="Label" parent="PanelTop"]
-margin_right = 1920.0
-margin_bottom = 51.0
-custom_fonts/font = ExtResource( 1 )
-text = "0:34"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PanelBottom" type="Panel" parent="."]
-margin_top = 1019.0
-margin_right = 1920.0
-margin_bottom = 1080.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="lblTimeGlobal" type="Label" parent="PanelBottom"]
-margin_right = 1920.0
-margin_bottom = 51.0
-custom_fonts/font = ExtResource( 1 )
-text = "0:34"
-align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
