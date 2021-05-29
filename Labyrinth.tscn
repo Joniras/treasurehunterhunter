@@ -439,12 +439,6 @@ occluder_light_mask = 0
 format = 1
 script = ExtResource( 2 )
 
-[node name="GlobalShadow" type="Light2D" parent="."]
-scale = Vector2( 10, 10 )
-texture = ExtResource( 4 )
-energy = 8.92
-mode = 1
-
 [node name="Player1" parent="." instance=ExtResource( 3 )]
 id = 1
 
@@ -459,6 +453,12 @@ id = 3
 [node name="Player4" parent="." instance=ExtResource( 3 )]
 position = Vector2( -45.614, -52.0285 )
 id = 4
+
+[node name="GlobalShadow" type="Light2D" parent="."]
+scale = Vector2( 10, 10 )
+texture = ExtResource( 4 )
+energy = 8.92
+mode = 1
 
 [node name="TreasureHunter" type="KinematicBody2D" parent="."]
 script = ExtResource( 6 )

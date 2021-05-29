@@ -9,6 +9,7 @@ var game = preload("res://SplitScreen/Map.tscn").instance()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()
 	get_node("VBoxContainer/Panel2/HBoxContainer2/optionsNumOfPlayers").grab_focus()
 	
 
