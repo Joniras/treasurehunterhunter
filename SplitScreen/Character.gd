@@ -7,6 +7,13 @@ var lastPressedLeft = 0;
 var lastPressedRight = 0;
 var lastPressedUp = 0;
 var lastPressedDown = 0;
+onready var game = get_node("/root/Map")
+
+#### Items
+
+# Stun
+var stun_timeLeft = 0
+
 
 var velo = Vector2()
 
@@ -49,16 +56,26 @@ func get_input():
 	
 func do_action():
 	var type = "stun"
-	get_node("/root/Map").call_action(type, id)
+	game.call_action(type, id)
 	
 func _physics_process(delta):
 	get_input()
-	velo = move_and_slide(velo)
+	
+	if(stun_timeLeft > 0):
+		stun_timeLeft -= delta*1000
+		if(stun_timeLeft <= 0):
+			speed = game.get_player_config("speed")
 		
+	velo = move_and_slide(velo)
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 
+func get_action_called(type):
+	print(str(id)+" got action called "+ type)
+	if (type == "stun"):
+		speed = 0
+		stun_timeLeft += game.get_item_config(type, "duration")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
