@@ -1,11 +1,27 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://SplitScreen/Character.gd" type="Script" id=1]
-[ext_resource path="res://assets/treasure_chests_32x32.png" type="Texture" id=2]
+[ext_resource path="res://assets/treasure_both.png" type="Texture" id=2]
 [ext_resource path="res://assets/spot.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 2.4, 2.4 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 508, 508 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 2 )
+region = Rect2( 508, 0, 508, 508 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+} ]
 
 [node name="Item" type="Area2D"]
 script = ExtResource( 1 )
@@ -15,12 +31,6 @@ modulate = Color( 1, 0.74902, 0, 1 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 3 )
 shadow_enabled = true
-
-[node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 2 )
-region_enabled = true
-region_rect = Rect2( 0, 0, 32, 30 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 0.206 )
@@ -33,3 +43,10 @@ cast_to = Vector2( 0, 4 )
 [node name="Tween" type="Tween" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Sprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.008, 0.008 )
+frames = SubResource( 4 )
+animation = "walk"
+frame = 1
+playing = true
