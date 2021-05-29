@@ -91,12 +91,16 @@ func _ready():
 	player.append(player1)
 	player.append(player2)
 	player1.setup()
+	# set speed = 0, such that player is not movable in controls-view
+	player1.speed = 0
 	player2.setup()
+	player2.speed = 0
 	if(playerCount > 2):
 		viewport3.world_2d = viewport1.world_2d
 		camera3.target = player3
 		player.append(player3)
 		player3.setup()
+		player3.speed = 0
 		player3.get_node("Sprite").visible = true
 	else:
 		world.remove_child(player3)
@@ -106,12 +110,14 @@ func _ready():
 		camera4.target = player4
 		player.append(player4)
 		player4.setup()
+		player4.speed = 0
 		player4.get_node("Sprite").visible = true
 	else:
 		world.remove_child(player4)
 	
 	
 	showControlsTimer.start()
+	
 	load_control_schemes()
 	
 	
@@ -121,12 +127,17 @@ func setupPlayer(number):
 		
 func round_end_time():
 	emit_signal("roundOver", false)
+	pausePlayerInput(true)
 	change_state(STATE_BETWEEN_ROUNDS)
 
 
 #is one of [1,2,3,4]
 func round_end_won(playerWon):
+	if current_global_state != STATE_PLAYING:
+		return
+	
 	emit_signal("roundOver", true)
+	pausePlayerInput(true)
 	
 	numberOfWins[playerWon - 1] += 1
 	
@@ -239,6 +250,8 @@ func display_time():
 	
 # caller is player id [1,2,3,4]
 func call_action(type,caller):
+	if current_global_state != STATE_PLAYING:
+		return
 	var affects = get_item_config(type, "affects")
 	print(type +" affects: "+str(affects))
 	match affects:
@@ -297,10 +310,26 @@ func change_state(new_state):
 	current_global_state = new_state
 	match(new_state):
 		STATE_PLAYING:
+			pausePlayerInput(false)
+			var defaultPlayerSpeed = get_config("player", "speed")
+			player1.speed = defaultPlayerSpeed
+			player2.speed = defaultPlayerSpeed
+			if playerCount >= 3:
+				player3.speed = defaultPlayerSpeed
+			if playerCount >= 4:
+				player4.speed = defaultPlayerSpeed
+			
 			hide_view_ports(controlContainers)
 			show_view_ports(camera_viewports)
 			start_round()
 		STATE_BETWEEN_ROUNDS:
+			player1.speed = 0
+			player2.speed = 0
+			if playerCount >= 3:
+				player3.speed = 0
+			if playerCount >= 4:
+				player4.speed = 0
+			
 			hide_view_ports(camera_viewports)
 			show_view_ports(controlContainers)
 			# show labels indicating points
@@ -338,6 +367,9 @@ func show_view_ports(viewports_to_show):
 	for viewport in viewports_to_show:
 		viewport.visible = true
 
+func pausePlayerInput(isPaused):
+	for p in player:
+		p.setPausePlayerInput(isPaused)
 
 func load_control_schemes():
 	# setup control screen for each player
