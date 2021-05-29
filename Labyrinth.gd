@@ -41,9 +41,16 @@ func set_player_positions():
 	
 	
 func _ready():
-	randomize()
-	initLabyrinth()
+	init(true)
+	
+
+func init(createNewLabyrinth):
 	set_player_positions()
+	
+	if (!createNewLabyrinth):
+		return
+
+	initLabyrinth()
 	# Start from 1, 1
 	generateLabyrinth(Vector2(1, 1))
 	
@@ -63,13 +70,14 @@ func _ready():
 			
 			# lower right
 			drawTile(Vector2(LABYRINTH_WIDTH + i, LABYRINTH_HEIGHT + j), WALL_TILE if labyrinth[LABYRINTH_WIDTH - 1 - i][LABYRINTH_HEIGHT - 1 - j] == WALL else PASSAGE_TILE)
-			
+
 	for i in range(-1,LABYRINTH_WIDTH*2+1):
 		drawTile(Vector2(i,LABYRINTH_HEIGHT*2), WALL_TILE)
 		drawTile(Vector2(i, -1), WALL_TILE)
 	for i in range(-1,LABYRINTH_HEIGHT*2+1):
 		drawTile(Vector2(LABYRINTH_WIDTH*2,i), WALL_TILE)
 		drawTile(Vector2(-1,i), WALL_TILE)
+
 # using Randomized Prim's Algorithm to generate a labyrinth inside the
 # labyrinth matrix
 func generateLabyrinth(startingCell: Vector2):
@@ -198,3 +206,7 @@ func checkBounds(cell: Vector2):
 func drawTile(position: Vector2, tile: Vector2):
 	set_cell(position.x, position.y, 0, false, false, false, tile)
 
+
+
+func _on_Map_roundOver(recreateMap):
+	init(recreateMap)
