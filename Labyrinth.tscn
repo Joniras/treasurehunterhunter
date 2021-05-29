@@ -1,7 +1,8 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://assets/labyrinth_tilemap.png" type="Texture" id=1]
 [ext_resource path="res://Labyrinth.gd" type="Script" id=2]
+[ext_resource path="res://SplitScreen/Character.tscn" type="PackedScene" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 4, 0, 4, 4, 0, 4 )
@@ -425,11 +426,24 @@ points = PoolVector2Array( 0, 0, 4, 0, 4, 4, 0, 4 )
 } ]
 0/z_index = 0
 
-[node name="Labyrinth" type="Node2D"]
-script = ExtResource( 2 )
-
-[node name="TileMap" type="TileMap" parent="."]
-scale = Vector2( 5, 5 )
+[node name="TileMap" type="TileMap"]
 tile_set = SubResource( 45 )
 cell_size = Vector2( 4, 4 )
 format = 1
+script = ExtResource( 2 )
+
+[node name="Player1" parent="." instance=ExtResource( 3 )]
+position = Vector2( -9.74447, -7.08332 )
+id = 1
+
+[node name="Player2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 9.97807, -49.1776 )
+id = 2
+
+[node name="Player3" parent="." instance=ExtResource( 3 )]
+position = Vector2( -81.9627, 18.5307 )
+id = 3
+
+[node name="Player4" parent="." instance=ExtResource( 3 )]
+position = Vector2( -45.614, -52.0285 )
+id = 4

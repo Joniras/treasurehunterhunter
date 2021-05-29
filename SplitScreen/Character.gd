@@ -62,6 +62,7 @@ func _physics_process(delta):
 	get_input()
 	
 	if(stun_timeLeft > 0):
+		print(stun_timeLeft)
 		stun_timeLeft -= delta*1000
 		if(stun_timeLeft <= 0):
 			speed = game.get_player_config("speed")
@@ -79,8 +80,11 @@ func get_action_called(type):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	pass
+	
+func setup():
+	speed = game.get_player_config("speed")
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

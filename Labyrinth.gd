@@ -1,4 +1,4 @@
-extends Node2D
+extends TileMap
 
 # only kind of works with odd numbers
 const LABYRINTH_HEIGHT = 25
@@ -128,5 +128,5 @@ func checkBounds(cell: Vector2):
 # position: position in the tilemap
 # tile: position in the tileset
 func drawTile(position: Vector2, tile: Vector2):
-	$TileMap.set_cell(position.x, position.y, 0, false, false, false, tile)
+	set_cell(position.x, position.y, 0, false, false, false, tile)
 
