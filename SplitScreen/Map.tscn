@@ -5,7 +5,7 @@
 [ext_resource path="res://SplitScreen/Camera2D.gd" type="Script" id=3]
 [ext_resource path="res://fonts/blockbusta.tres" type="DynamicFont" id=4]
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.4, 0.329412, 0.368627, 1 )
 border_width_left = 8
 border_width_top = 8
@@ -13,15 +13,15 @@ border_width_right = 8
 border_width_bottom = 8
 border_color = Color( 0.4, 0.329412, 0.368627, 1 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.4, 0.329412, 0.368627, 1 )
 border_color = Color( 0.933333, 0.662745, 0.564706, 1 )
 
-[sub_resource type="StyleBoxLine" id=1]
+[sub_resource type="StyleBoxLine" id=3]
 thickness = 6
 vertical = true
 
-[sub_resource type="StyleBoxLine" id=2]
+[sub_resource type="StyleBoxLine" id=4]
 thickness = 6
 
 [node name="Map" type="Node"]
@@ -96,7 +96,7 @@ margin_right = 951.0
 margin_bottom = 456.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="Label" type="Label" parent="Container/ViewportContainer/HBoxContainerTop/ControlsPanelContainer1"]
 margin_left = 7.0
@@ -116,7 +116,7 @@ margin_top = 179.0
 margin_right = 674.0
 margin_bottom = 284.0
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 4 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
 text = "MOVEMENT: W A S D
@@ -155,7 +155,7 @@ render_target_update_mode = 0
 margin_left = 958.0
 margin_right = 962.0
 margin_bottom = 463.0
-custom_styles/separator = SubResource( 1 )
+custom_styles/separator = SubResource( 3 )
 
 [node name="ViewportContainer3" type="ViewportContainer" parent="Container/ViewportContainer/HBoxContainerTop"]
 visible = false
@@ -189,7 +189,7 @@ margin_right = 951.0
 margin_bottom = 456.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="Label" type="Label" parent="Container/ViewportContainer/HBoxContainerTop/ControlsPanelContainer3"]
 margin_left = 7.0
@@ -209,7 +209,7 @@ margin_top = 179.0
 margin_right = 674.0
 margin_bottom = 284.0
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 4 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
 text = "MOVEMENT: W A S D
@@ -223,7 +223,7 @@ __meta__ = {
 margin_top = 463.0
 margin_right = 1920.0
 margin_bottom = 467.0
-custom_styles/separator = SubResource( 2 )
+custom_styles/separator = SubResource( 4 )
 
 [node name="HBoxContainerBottom" type="HBoxContainer" parent="Container/ViewportContainer"]
 margin_top = 467.0
@@ -263,7 +263,7 @@ margin_right = 951.0
 margin_bottom = 457.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="Label" type="Label" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer4"]
 margin_left = 7.0
@@ -283,7 +283,7 @@ margin_top = 179.0
 margin_right = 674.0
 margin_bottom = 284.0
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 4 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
 text = "MOVEMENT: W A S D
@@ -297,7 +297,7 @@ __meta__ = {
 margin_left = 958.0
 margin_right = 962.0
 margin_bottom = 464.0
-custom_styles/separator = SubResource( 1 )
+custom_styles/separator = SubResource( 3 )
 
 [node name="ViewportContainer2" type="ViewportContainer" parent="Container/ViewportContainer/HBoxContainerBottom"]
 visible = false
@@ -331,7 +331,7 @@ margin_right = 951.0
 margin_bottom = 457.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="Label" type="Label" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer2"]
 margin_left = 7.0
@@ -351,7 +351,7 @@ margin_top = 179.0
 margin_right = 674.0
 margin_bottom = 284.0
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 4 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
 text = "MOVEMENT: W A S D
@@ -386,3 +386,9 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ShowControlsTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="ShowControlsTimer" to="." method="_on_ShowControlsTimer_timeout"]
