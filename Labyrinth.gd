@@ -3,7 +3,7 @@ extends Node2D
 # only kind of works with odd numbers
 const LABYRINTH_HEIGHT = 21
 # only kind of works with odd numbers
-const LABYRINTH_WIDTH = 21
+const LABYRINTH_WIDTH = 25
 
 # Temp fix for placing walls
 const WALL_TILE = Vector2(0, 0)
@@ -28,6 +28,18 @@ func _ready():
 	# now we have a quadrant ready for player 1 in the labyrinth list
 	# mirror it, then we get the maze for player 2
 	
+	for i in LABYRINTH_WIDTH:
+		for j in LABYRINTH_HEIGHT:
+			# upper right
+			drawTile(Vector2(LABYRINTH_WIDTH + i, j), WALL_TILE if labyrinth[LABYRINTH_WIDTH - 1 - i][j] == WALL else PASSAGE_TILE)
+			
+			# lower left
+			drawTile(Vector2(i, LABYRINTH_HEIGHT + j), WALL_TILE if labyrinth[i][LABYRINTH_HEIGHT - 1 - j] == WALL else PASSAGE_TILE)
+			
+			# lower right
+			drawTile(Vector2(LABYRINTH_WIDTH + i, LABYRINTH_HEIGHT + j), WALL_TILE if labyrinth[LABYRINTH_WIDTH - 1 - i][LABYRINTH_HEIGHT - 1 - j] == WALL else PASSAGE_TILE)
+			
+			
 	
 
 # using Randomized Prim's Algorithm to generate a maze
@@ -68,12 +80,12 @@ func generateAndDrawLabyrinth(startingCell: Vector2):
 
 # inits the quadrant of the whole labyrinth with wall tiles
 func initLabyrinth():
-	labyrinth.resize(LABYRINTH_HEIGHT)
+	labyrinth.resize(LABYRINTH_WIDTH)
 	# init the labyrinth:
-	for i in LABYRINTH_HEIGHT:
+	for i in LABYRINTH_WIDTH:
 		labyrinth[i] = []
-		labyrinth[i].resize(LABYRINTH_WIDTH)
-		for j in LABYRINTH_WIDTH:
+		labyrinth[i].resize(LABYRINTH_HEIGHT)
+		for j in LABYRINTH_HEIGHT:
 			# init the Labyrinth:
 			labyrinth[i][j] = WALL
 			drawTile(Vector2(i, j), WALL_TILE)
@@ -114,9 +126,9 @@ func drawStartingRoom():
 		labyrinth[pos.x][pos.y] = PASSAGE
 	
 func drawEndRoom():
-	var endingPositions = [Vector2(LABYRINTH_HEIGHT - 2, LABYRINTH_WIDTH - 1),
-		Vector2(LABYRINTH_HEIGHT - 1, LABYRINTH_WIDTH - 1),
-		Vector2(LABYRINTH_HEIGHT - 1, LABYRINTH_WIDTH - 2)]
+	var endingPositions = [Vector2(LABYRINTH_WIDTH - 2, LABYRINTH_HEIGHT - 1),
+		Vector2(LABYRINTH_WIDTH - 1, LABYRINTH_HEIGHT - 1),
+		Vector2(LABYRINTH_WIDTH - 1, LABYRINTH_HEIGHT - 2)]
 		
 	for pos in endingPositions:
 		drawTile(pos, PASSAGE_TILE)
