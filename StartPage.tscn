@@ -1,8 +1,8 @@
 [gd_scene load_steps=19 format=2]
 
-[ext_resource path="res://blockbusta.tres" type="DynamicFont" id=1]
+[ext_resource path="res://fonts/blockbusta.tres" type="DynamicFont" id=1]
 [ext_resource path="res://btnExit.gd" type="Script" id=2]
-[ext_resource path="res://karmatic_arcade.tres" type="DynamicFont" id=3]
+[ext_resource path="res://fonts/karmatic_arcade.tres" type="DynamicFont" id=3]
 [ext_resource path="res://optionsNumOfPlayers.gd" type="Script" id=4]
 [ext_resource path="res://btnStart.gd" type="Script" id=5]
 [ext_resource path="res://StartPage.gd" type="Script" id=6]

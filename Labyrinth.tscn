@@ -439,12 +439,6 @@ occluder_light_mask = 0
 format = 1
 script = ExtResource( 2 )
 
-[node name="GlobalShadow" type="Light2D" parent="."]
-scale = Vector2( 10, 10 )
-texture = ExtResource( 4 )
-energy = 8.92
-mode = 1
-
 [node name="Player1" parent="." instance=ExtResource( 3 )]
 id = 1
 
@@ -469,3 +463,9 @@ texture = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TreasureHunter"]
 shape = SubResource( 46 )
+
+[node name="GlobalShadow" type="Light2D" parent="."]
+scale = Vector2( 10, 10 )
+texture = ExtResource( 4 )
+energy = 8.92
+mode = 1
