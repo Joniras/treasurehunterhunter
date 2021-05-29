@@ -1,0 +1,193 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://fonts/blockbusta/FTBLOCKB.TTF" type="DynamicFontData" id=3]
+[ext_resource path="res://fonts/blockbusta.tres" type="DynamicFont" id=4]
+[ext_resource path="res://fonts/karmatic_arcade.tres" type="DynamicFont" id=5]
+[ext_resource path="res://GameOver.gd" type="Script" id=6]
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.4, 0.329412, 0.368627, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.933333, 0.662745, 0.564706, 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.639216, 0.568627, 0.576471, 1 )
+
+[sub_resource type="DynamicFont" id=15]
+resource_name = "Blockbusta"
+size = 300
+font_data = ExtResource( 3 )
+
+[sub_resource type="Theme" id=11]
+default_font = ExtResource( 4 )
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0.4, 0.329412, 0.368627, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0.933333, 0.662745, 0.564706, 1 )
+
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0.933333, 0.662745, 0.564706, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0.4, 0.329412, 0.368627, 1 )
+
+[sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.4, 0.329412, 0.368627, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0.964706, 0.878431, 0.709804, 1 )
+
+[node name="GameOver" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+margin_right = 1920.0
+margin_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+custom_styles/panel = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -558.0
+margin_top = -51.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
+text = "Treasure Hunter Hunter"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="VBoxContainer"]
+margin_top = 180.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lblText" type="Label" parent="VBoxContainer/Panel2/VBoxContainer"]
+margin_right = 1920.0
+margin_bottom = 448.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0.4, 0.329412, 0.368627, 1 )
+custom_colors/font_color_shadow = Color( 0.933333, 0.662745, 0.564706, 1 )
+text = "The Winner is "
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="winnerLabel" type="Label" parent="VBoxContainer/Panel2/VBoxContainer"]
+margin_top = 452.0
+margin_right = 1920.0
+margin_bottom = 900.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 15 )
+custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
+text = "Player 1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel2"]
+anchor_top = 0.93
+anchor_right = 1.0
+anchor_bottom = 0.93
+margin_left = 50.0
+margin_top = -55.0
+margin_right = -50.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/Panel2/HBoxContainer"]
+margin_right = 1820.0
+margin_bottom = 85.0
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Panel2/HBoxContainer/HBoxContainer2"]
+margin_right = 139.0
+margin_bottom = 85.0
+
+[node name="btnExit" type="Button" parent="VBoxContainer/Panel2/HBoxContainer/HBoxContainer2/MarginContainer"]
+margin_right = 139.0
+margin_bottom = 85.0
+focus_neighbour_left = NodePath("../../../HBoxContainer/MarginContainer/btnStart")
+focus_neighbour_top = NodePath("../../../../HBoxContainer2/optionsNumOfPlayers")
+focus_neighbour_right = NodePath("../../../HBoxContainer/MarginContainer2/btnHelp")
+focus_next = NodePath("../../../HBoxContainer/MarginContainer2/btnHelp")
+focus_previous = NodePath("../../../../HBoxContainer2/optionsNumOfPlayers")
+theme = SubResource( 11 )
+custom_styles/hover = SubResource( 12 )
+custom_styles/pressed = SubResource( 13 )
+custom_styles/normal = SubResource( 14 )
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0.964706, 0.878431, 0.709804, 1 )
+custom_colors/font_color_hover = Color( 0.933333, 0.662745, 0.564706, 1 )
+custom_colors/font_color_pressed = Color( 0.4, 0.329412, 0.368627, 1 )
+text = "  QUIT  "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="VBoxContainer/Panel2/HBoxContainer/HBoxContainer2/MarginContainer/btnExit" to="." method="_on_btnExit_pressed"]

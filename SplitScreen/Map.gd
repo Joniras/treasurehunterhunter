@@ -102,10 +102,10 @@ func _ready():
 		player4.get_node("Sprite").visible = true
 	else:
 		world.remove_child(player4)
-	start_round()
-	load_control_schemes()
+	
 	
 	showControlsTimer.start()
+	load_control_schemes()
 	
 	
 func setupPlayer(number):
@@ -124,7 +124,7 @@ func round_end_won(playerWon):
 	numberOfWins[playerWon - 1] += 1
 	
 	if numberOfWins[playerWon - 1] >= 3:
-		winner = playerWon - 1
+		winner = playerWon
 		change_state(STATE_GAME_END)
 	else:
 		change_state(STATE_BETWEEN_ROUNDS)
@@ -132,12 +132,13 @@ func round_end_won(playerWon):
 
 
 func _physics_process(delta):
-	if(remainingTime>0):
-		remainingTime-= delta
-	if(remainingTime <= 0):
-		round_end_time()
-	else:
-		display_time()
+	if (current_global_state == STATE_PLAYING):
+		if(remainingTime>0):
+			remainingTime-= delta
+		if(remainingTime <= 0):
+			round_end_time()
+		else:
+			display_time()
 		
 		
 func start_round():
@@ -145,7 +146,7 @@ func start_round():
 	world.set_player_positions()
 	
 	
-func _process(delta):
+func _process(delta):	
 	if current_global_state == STATE_SHOW_CONTROLS:
 		currentShowControlsTime = round(showControlsTimer.time_left)
 		
@@ -173,16 +174,16 @@ func _process(delta):
 		if (Input.is_action_just_released("up_4") || Input.is_action_just_released("down_4") || Input.is_action_just_released("left_4") || Input.is_action_just_released("right_4") || Input.is_action_just_released("action_4")):
 			hide_controls_border_for_player(4)
 			
-		$"Container/PanelTop/lblTimeGlobal".text = str(currentShowControlsTime)
-		$"Container/PanelBottom/lblTimeGlobal".text = str(currentShowControlsTime)
+		# topTimeLabel.text = str(currentShowControlsTime)
+		# bottomTimeLabel.text = str(currentShowControlsTime)
 	
 	if current_global_state == STATE_BETWEEN_ROUNDS:
-		$"Container/PanelTop/lblTimeGlobal".text = str(round($"ShowScoresTimer".time_left))
-		$"Container/PanelBottom/lblTimeGlobal".text = str(round($"ShowScoresTimer".time_left))
+		topTimeLabel.text = str(round($"ShowScoresTimer".time_left))
+		bottomTimeLabel.text = str(round($"ShowScoresTimer".time_left))
 		
 	if current_global_state == STATE_GAME_END:
-		$"Container/PanelTop/lblTimeGlobal".text = "You ate the Treasure Hunter!"
-		$"Container/PanelBottom/lblTimeGlobal".text = "May he never Hunt us again!"
+		topTimeLabel.text = "You ate the Treasure Hunter!"
+		bottomTimeLabel.text = "May he never hunt treasures again!"
 	
 
 func display_time():
@@ -192,8 +193,8 @@ func display_time():
 	else:
 		timeString = str(floor(remainingTime *100)/100)
 	
-	$"Container/PanelTop/lblTimeGlobal".text = timeString
-	$"Container/PanelBottom/lblTimeGlobal".text = timeString
+	topTimeLabel.text = timeString
+	bottomTimeLabel.text = timeString
 	
 	
 # caller is player id [1,2,3,4]
@@ -253,10 +254,12 @@ func get_config(section, attribute):
 	
 	
 func change_state(new_state):
+	current_global_state = new_state
 	match(new_state):
 		STATE_PLAYING:
 			hide_view_ports(controlContainers)
 			show_view_ports(camera_viewports)
+			start_round()
 		STATE_BETWEEN_ROUNDS:
 			hide_view_ports(camera_viewports)
 			show_view_ports(controlContainers)
@@ -267,20 +270,13 @@ func change_state(new_state):
 				i += 1
 			
 			# wait until timer is over and return to STATE_PLAYING
-			$"ShowScoresTimer".start(1)
+			$"ShowScoresTimer".start(5)
 			
 		STATE_GAME_END:
 			hide_view_ports(camera_viewports)
 			show_view_ports(controlContainers)
 			
-			for controlContainer in controlContainers:
-				controlContainer.get_node("lblInput").text = "YOU LOST"
-			
-			controlContainers[winner].get_node("lblInput").text = "WINNER"
-			
-			$"ShowWinnerTimer".start(1)
-			# show winner for a few seconds
-			# return to startpage
+			onGameOver()
 			
 
 # hides all passed viewports
@@ -377,6 +373,9 @@ func _on_ShowControlsTimer_timeout():
 	change_state(STATE_PLAYING)
 
 
-func _on_ShowWinnerTimer_timeout():
-	pass
-	# show start
+func onGameOver():
+	var gameOver = load("res://GameOver.tscn").instance()
+	gameOver.setPlayerCount(playerCount)
+	gameOver.setWinner(winner)
+	get_node("/root").add_child(gameOver)
+	get_node("/root").remove_child(self)

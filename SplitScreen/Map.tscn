@@ -393,14 +393,12 @@ __meta__ = {
 }
 
 [node name="ShowControlsTimer" type="Timer" parent="."]
+wait_time = 10.0
 one_shot = true
-
-[node name="ShowWinnerTimer" type="Timer" parent="."]
 
 [node name="ShowScoresTimer" type="Timer" parent="."]
 one_shot = true
 
 [connection signal="roundOver" from="." to="Container/ViewportContainer/HBoxContainerTop/ViewportContainer1/Viewport1/World" method="_on_Map_roundOver"]
 [connection signal="timeout" from="ShowControlsTimer" to="." method="_on_ShowControlsTimer_timeout"]
-[connection signal="timeout" from="ShowWinnerTimer" to="." method="_on_ShowWinnerTimer_timeout"]
 [connection signal="timeout" from="ShowScoresTimer" to="." method="_on_ShowScoresTimer_timeout"]
