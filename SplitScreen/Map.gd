@@ -27,6 +27,8 @@ onready var controls_labels = [controls_1, controls_2, controls_3, controls_4]
 onready var camera_viewports = [viewport1, viewport2, viewport3, viewport4]
 #var countdown_viewports = [] -> to be defined
 
+var colors = ["#D50000", "#2962FF", "#00C853", "#FFD600"]
+
 var playerCount = 0
 
 func _ready():
@@ -46,9 +48,35 @@ func _ready():
 	
 	change_state(STATE_SHOW_CONTROLS)
 	
+func _process(delta):
+	
+	if current_global_state == STATE_SHOW_CONTROLS:
+		if (Input.is_action_pressed("up_1") || Input.is_action_pressed("down_1") || Input.is_action_pressed("left_1") || Input.is_action_pressed("right_1") || Input.is_action_pressed("action_1")):
+			show_controls_border_for_player_id(1)
+			
+		if (Input.is_action_just_released("up_1") || Input.is_action_just_released("down_1") || Input.is_action_just_released("left_1") || Input.is_action_just_released("right_1") || Input.is_action_just_released("action_1")):
+			hide_controls_border_for_player(1)
+		
+		if (Input.is_action_pressed("up_2") || Input.is_action_pressed("down_2") || Input.is_action_pressed("left_2") || Input.is_action_pressed("right_2") || Input.is_action_pressed("action_2")):
+			show_controls_border_for_player_id(2)
+			
+		if (Input.is_action_just_released("up_2") || Input.is_action_just_released("down_2") || Input.is_action_just_released("left_2") || Input.is_action_just_released("right_2") || Input.is_action_just_released("action_2")):
+			hide_controls_border_for_player(2)
+			
+		if (Input.is_action_pressed("up_3") || Input.is_action_pressed("down_3") || Input.is_action_pressed("left_3") || Input.is_action_pressed("right_3") || Input.is_action_pressed("action_3")):
+			show_controls_border_for_player_id(3)
+			
+		if (Input.is_action_just_released("up_3") || Input.is_action_just_released("down_3") || Input.is_action_just_released("left_3") || Input.is_action_just_released("right_3") || Input.is_action_just_released("action_3")):
+			hide_controls_border_for_player(3)
+			
+		if (Input.is_action_pressed("up_4") || Input.is_action_pressed("down_4") || Input.is_action_pressed("left_4") || Input.is_action_pressed("right_4") || Input.is_action_pressed("action_4")):
+			show_controls_border_for_player_id(4)
+			
+		if (Input.is_action_just_released("up_4") || Input.is_action_just_released("down_4") || Input.is_action_just_released("left_4") || Input.is_action_just_released("right_4") || Input.is_action_just_released("action_4")):
+			hide_controls_border_for_player(4)
+
 func setupPlayer(number):
 	playerCount = number
-		
 	
 func call_action(type,caller):
 	print(type)
@@ -125,3 +153,18 @@ func get_controls_for_player(player_id):
 
 func get_controls_as_string(controls_array):
 	return "MOVEMENT: " + controls_array[0] + " " + controls_array[1] + " " + controls_array[2] + " " + controls_array[3] + "\nACTION: " + controls_array[4]
+
+func show_controls_border_for_player_id(player_id):
+	var panelNode = controls_labels[player_id - 1].get_parent().get_node("Panel")
+	var new_style = StyleBoxFlat.new()
+	new_style.set_bg_color("#66545e")
+	new_style.set_border_color(colors[player_id - 1])
+	new_style.set_border_width_all(8)
+	panelNode.set('custom_styles/panel', new_style)
+
+func hide_controls_border_for_player(player_id):
+	var panelNode = controls_labels[player_id - 1].get_parent().get_node("Panel")
+	var new_style = StyleBoxFlat.new()
+	new_style.set_bg_color("#66545e")
+	new_style.set_border_width_all(0)
+	panelNode.set('custom_styles/panel', new_style)

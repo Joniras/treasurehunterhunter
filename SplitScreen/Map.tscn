@@ -7,11 +7,7 @@
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.4, 0.329412, 0.368627, 1 )
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
-border_color = Color( 0.4, 0.329412, 0.368627, 1 )
+border_color = Color( 0.72549, 0.0705882, 0.435294, 1 )
 
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.4, 0.329412, 0.368627, 1 )
