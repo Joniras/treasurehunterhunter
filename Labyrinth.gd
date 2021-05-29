@@ -18,10 +18,28 @@ var pendingCells: Array
 # placed where.
 var labyrinth = []
 
+var tile_size = 4
+
+onready var player1 = $Player1
+onready var player2 = $Player2
+onready var player3 = $Player3
+onready var player4 = $Player4
+
+func set_player_positions():
+	player1.position = Vector2(0,0)
+	player1.adjustPositionToGrid()
+	player2.position = Vector2(LABYRINTH_WIDTH*tile_size*2-tile_size,LABYRINTH_HEIGHT*tile_size*2-tile_size)
+	player2.adjustPositionToGrid()
+	player3.position = Vector2(LABYRINTH_WIDTH*tile_size*2-tile_size, 0)
+	player3.adjustPositionToGrid()
+	player4.position = Vector2(0,LABYRINTH_HEIGHT*tile_size*2-tile_size)
+	player4.adjustPositionToGrid()
+	
+	
 func _ready():
 	randomize()
 	initLabyrinth()
-	
+	set_player_positions()
 	# Start from 1, 1
 	generateLabyrinth(Vector2(1, 1))
 	

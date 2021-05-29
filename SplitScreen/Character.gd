@@ -7,7 +7,7 @@ var lastPressedRight = 0;
 var lastPressedUp = 0;
 var lastPressedDown = 0;
 onready var game = get_node("/root/Map")
-var speed = 250 # gets changed anyway during startup
+var speed = 4 # gets changed anyway during startup
 
 onready var ray = $RayCast2D
 onready var tween = $Tween
@@ -66,7 +66,7 @@ func _physics_process(delta):
 	if(stun_timeLeft > 0):
 		stun_timeLeft -= delta*1000
 		if(stun_timeLeft <= 0):
-			speed = game.get_config("speed")
+			speed = game.get_config("player","speed")
 			
 	if(velo.x != 0 || velo.y != 0): # only do tweening of any movement is available at all
 		if(OS.get_ticks_msec()-lastInput >= (1.0/speed as float)*1000):
@@ -87,18 +87,16 @@ func get_action_called(type):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	pass
+
+func adjustPositionToGrid():
 	position = position.snapped(Vector2.ONE * tile_size)
 	position += Vector2.ONE * tile_size/2
 	newPos = position
-	$Tween.connect("tween_completed ", self, "on_tween_completed")
-	
-	
-func setup():
-	speed = game.get_config("speed")
-	
-func on_tween_completed():
-	newPos = position
 
+func setup():
+	speed = game.get_config("player","speed")
+	
 func move(dir):
 	ray.cast_to = velo * tile_size
 	ray.force_raycast_update()

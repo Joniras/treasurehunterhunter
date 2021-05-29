@@ -17,9 +17,13 @@ onready var player2 = world.get_node("Player2")
 onready var player3 = world.get_node("Player3")
 onready var player4 = world.get_node("Player4")
 
+onready var topTimeLabel = $"Container/PanelTop/lblTimeGlobal"
+onready var bottomTimeLabel = $"Container/PanelBottom/lblTimeGlobal"
+
 var config = ConfigFile.new()
 var items = ConfigFile.new()
 
+var remainingTime = 0
 	
 var player = Array()
 
@@ -28,7 +32,6 @@ var playerCount = 0
 func _ready():
 	config.load("res://config/game.cfg")
 	items.load("res://config/items.cfg")
-	
 	viewport2.world_2d = viewport1.world_2d
 	camera1.target = player1
 	player1.get_node("Sprite").visible = true
@@ -55,11 +58,40 @@ func _ready():
 		player4.get_node("Sprite").visible = true
 	else:
 		world.remove_child(player4)
-	
+	start_round()
 	
 func setupPlayer(number):
 	playerCount = number
 		
+func round_end_time():
+	#TODO: call screen to go next round or won
+	pass
+
+func round_end_won():
+	pass
+
+func _physics_process(delta):
+	if(remainingTime>0):
+		remainingTime-= delta
+	if(remainingTime <= 0):
+		round_end_time()
+	else:
+		display_time()
+		
+func start_round():
+	remainingTime = get_config("game","roundTime")
+	world.set_player_positions()
+	
+		
+func display_time():
+	var timeString
+	if(remainingTime > 10):
+		timeString = str(remainingTime as int)
+	else:	
+		timeString = str(floor(remainingTime *100)/100)
+	
+	topTimeLabel.text = timeString
+	bottomTimeLabel.text = timeString
 	
 # caller is player id [1,2,3,4]
 func call_action(type,caller):
@@ -107,7 +139,7 @@ func call_all(type):
 func get_item_config(item, attribute):
 	return items.get_value(item, attribute, -1)
 	
-func get_config(attribute):
-	var _config = config.get_value("player", attribute, -1)
-	print("Got "+attribute+" result: "+str(_config))
+func get_config(section, attribute):
+	var _config = config.get_value(section, attribute, -1)
+	print("Got "+section+":"+attribute+" result: "+str(_config))
 	return _config

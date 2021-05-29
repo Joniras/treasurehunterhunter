@@ -19,6 +19,7 @@ func start_game(numberPlayers):
 	game.setupPlayer(numberPlayers)
 	get_node("/root").add_child(game)
 	get_node("/root").remove_child(self)
+	
 
 
 func _input(event):
