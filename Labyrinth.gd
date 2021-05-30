@@ -20,7 +20,7 @@ var pendingCells: Array
 var labyrinth = []
 
 
-var types = ["stun","speed","bomb","light","wall"]
+var types = ["stun","speed","bomb","light","wall","path"]
 	
 var tile_size = 4
 
