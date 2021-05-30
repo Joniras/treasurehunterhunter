@@ -90,6 +90,11 @@ func _physics_process(delta):
 		stun_time_left -= delta * 1000
 		if (stun_time_left <= 0):
 			speed = game.get_config("speed")
+			if slow_count_active> 0:
+				speed = speed * game.get_item_config(SLOW, "value") * slow_count_active
+			if speed_count_active > 0:
+				speed = speed * game.get_item_config(SPEED, "value") * speed_count_active
+			
 	
 	if (slow_count_active > 0):
 		slow_time_left -= delta * 1000
