@@ -76,7 +76,7 @@ func _physics_process(delta):
 	if (bomb_time_left):
 		bomb_time_left -= delta * 1000
 		if (bomb_time_left <= 0):
-			speed = game.get_config("player", "speed")
+			speed = game.get_config("speed")
 	
 	if (stun_time_left > 0):
 		stun_time_left -= delta * 1000
@@ -122,7 +122,7 @@ func adjustPositionToGrid():
 	newPos = position
 
 func setup():
-	speed = game.get_config("player","speed")
+	speed = game.get_config("speed")
 	
 func move(dir):
 	ray.cast_to = velo * tile_size
@@ -145,7 +145,7 @@ var lastInput = OS.get_ticks_msec()
 
 func add_item(type):
 	items.push_front(ray.get_collider().type)
-	if(items.size() > game.get_config("player","itemCount")):
+	if(items.size() > game.get_config("itemCount")):
 		items.pop_back()
 	game.refreshItemView(items.duplicate(), id)
 	

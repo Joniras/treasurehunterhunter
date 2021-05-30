@@ -87,7 +87,7 @@ func remove_all_items():
 	var children = self.get_children()
 	for N in children:
 		if("Item_" in N.name):
-			print("removed Item "+N.name)
+			# print("removed Item "+N.name)
 			N.queue_free()
 
 func redrawAllItems():
@@ -173,7 +173,7 @@ func add_item(x,y, type, id):
 	var new_item = item.instance()
 	new_item.type = type
 	new_item.name = "Item_"+str(id)
-	print("Added "+new_item.name)
+	# print("Added "+new_item.name)
 	new_item.id = id
 	new_item.position = Vector2(x*tile_size+2,y*tile_size+2)
 	self.add_child(new_item)
