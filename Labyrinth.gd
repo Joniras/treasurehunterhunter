@@ -141,8 +141,6 @@ func generateLabyrinth(startingCell: Vector2):
 	for pos in startAndEndPositions:
 		labyrinth[pos.x][pos.y] = PASSAGE
 	sprinkleItems()
-	add_item_mirrored(1,1,"light", max_item+1)
-	add_item_mirrored(1,2,"light",  max_item+2)
 
 func sprinkleItems():
 	var countItems = min_item+randi()%(max_item-min_item);

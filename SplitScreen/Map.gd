@@ -269,7 +269,6 @@ func display_time():
 	
 # caller is player id [1,2,3,4]
 func call_action(type,caller):
-	type = "path"
 	if current_global_state != STATE_PLAYING:
 		return
 		
@@ -368,7 +367,6 @@ func initDict():
 	 
 
 func get_item_config(item, attribute):
-	return itemConfig["path"][attribute]
 	return itemConfig[item][attribute]
 	
 	

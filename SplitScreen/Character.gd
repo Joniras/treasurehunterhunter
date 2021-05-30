@@ -96,7 +96,7 @@ func _physics_process(delta):
 			slow_count_active -= 1
 			
 	if (speed_count_active > 0):
-		print(str(speed_time_left))
+		# print(str(speed_time_left))
 		speed_time_left -= delta * 1000
 		var speed_duration = game.get_item_config(SPEED, "duration")
 		if (speed_time_left <= speed_duration * (speed_count_active - 1)):
@@ -122,7 +122,7 @@ func _physics_process(delta):
 # var b = "text"
 
 func get_action_called(type):
-	print("Player "+str(id)+" got action called "+ type)
+	# print("Player "+str(id)+" got action called "+ type)
 	if (type == SLOW):
 		speed *= game.get_item_config(type, "value")
 		slow_time_left += game.get_item_config(type, "duration")
@@ -143,8 +143,8 @@ func get_action_called(type):
 		betterPos.x -= (tile_size/2) 
 		betterPos.y -= (tile_size/2) 
 		betterPos = betterPos/tile_size
-		print("PLAYER AT TILE POSTION:")
-		print(betterPos)
+		#print("PLAYER AT TILE POSTION:")
+		#print(betterPos)
 		
 		game.showShortestPath(betterPos, id)
 		
@@ -156,6 +156,10 @@ func _ready():
 func adjustPositionToGrid():
 	position = position.snapped(Vector2.ONE * tile_size)
 	position += Vector2.ONE * tile_size/2
+	lastPressedLeft = 0
+	lastPressedRight = 0
+	lastPressedDown = 0
+	lastPressedUp = 0
 	newPos = position
 
 func setup():
