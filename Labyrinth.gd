@@ -19,10 +19,12 @@ var pendingCells: Array
 # placed where.
 var labyrinth = []
 
-
 var types = ["stun","speed","slow","light","wall","path"]
 	
 var tile_size = 4
+
+var min_item = 6
+var max_item = 20
 
 onready var player1 = $Player1
 onready var player2 = $Player2
@@ -136,11 +138,11 @@ func generateLabyrinth(startingCell: Vector2):
 	for pos in startAndEndPositions:
 		labyrinth[pos.x][pos.y] = PASSAGE
 	sprinkleItems()
-	add_item_mirrored(1,1,"light", 11)
-	add_item_mirrored(1,2,"light", 12)
+	add_item_mirrored(1,1,"light", max_item+1)
+	add_item_mirrored(1,2,"light",  max_item+2)
 
 func sprinkleItems():
-	var countItems = randi()%10;
+	var countItems = min_item+randi()%(max_item-min_item);
 	while countItems > 0:
 		countItems -= 1
 		var spotFound = false
@@ -163,6 +165,7 @@ func sprinkleItems():
 					break
 	
 func add_item_mirrored(x,y,type,id):
+	print("Added "+str(id)+" with type "+type)
 	add_item(x,y,type,str(id)+str(1))
 	add_item(2*LABYRINTH_WIDTH-x-1,y,type,str(id)+str(3))
 	add_item(x,2*LABYRINTH_HEIGHT-y-1,type,str(id)+str(4))
@@ -174,7 +177,6 @@ func add_item(x,y, type, id):
 	var new_item = item.instance()
 	new_item.type = type
 	new_item.name = "Item_"+str(id)
-	# print("Added "+new_item.name)
 	new_item.id = id
 	new_item.position = Vector2(x*tile_size+2,y*tile_size+2)
 	self.add_child(new_item)

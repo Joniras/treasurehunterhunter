@@ -50,5 +50,4 @@ cast_to = Vector2( 0, 4 )
 scale = Vector2( 0.008, 0.008 )
 frames = SubResource( 4 )
 animation = "walk"
-frame = 1
 playing = true

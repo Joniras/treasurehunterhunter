@@ -7,10 +7,10 @@
 [ext_resource path="res://items/character_maleAdventurer_sheet.png" type="Texture" id=5]
 [ext_resource path="res://assets/tileset.png" type="Texture" id=6]
 
-[sub_resource type="ConvexPolygonShape2D" id=1]
+[sub_resource type="ConvexPolygonShape2D" id=7]
 points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
 
-[sub_resource type="TileSet" id=2]
+[sub_resource type="TileSet" id=8]
 0/name = "labyrinth"
 0/texture = ExtResource( 6 )
 0/tex_offset = Vector2( 0, 0 )
@@ -30,26 +30,26 @@ points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
 0/navigation_offset = Vector2( 0, 0 )
 0/shape_offset = Vector2( 0, 0 )
 0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape = SubResource( 1 )
+0/shape = SubResource( 7 )
 0/shape_one_way = false
 0/shape_one_way_margin = 1.0
 0/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 1 ),
+"shape": SubResource( 7 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 0/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 5.20712, 5.53617 )
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 96, 128 )
 
-[sub_resource type="AtlasTexture" id=5]
+[sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 5 )
 region = Rect2( 384, 0, 96, 128 )
 
@@ -57,13 +57,13 @@ region = Rect2( 384, 0, 96, 128 )
 atlas = ExtResource( 5 )
 region = Rect2( 672, 0, 96, 128 )
 
-[sub_resource type="AtlasTexture" id=7]
+[sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 5 )
 region = Rect2( 768, 0, 96, 128 )
 
-[sub_resource type="SpriteFrames" id=8]
+[sub_resource type="SpriteFrames" id=13]
 animations = [ {
-"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 6 ) ],
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 6 ), SubResource( 12 ), SubResource( 6 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -85,7 +85,7 @@ scale = Vector2( 0.031, 0.031 )
 
 [node name="TileMap" type="TileMap" parent="Node2D"]
 scale = Vector2( 1.009, 1.009 )
-tile_set = SubResource( 2 )
+tile_set = SubResource( 8 )
 cell_size = Vector2( 128, 128 )
 cell_custom_transform = Transform2D( 64, 64, 0, 4, 0, 0 )
 occluder_light_mask = 0
@@ -95,11 +95,12 @@ tile_data = PoolIntArray( -983058, 0, 0, -983057, 0, 0, -983056, 0, 0, -983055, 
 [node name="TreasureHunter" type="KinematicBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TreasureHunter"]
-shape = SubResource( 3 )
+shape = SubResource( 9 )
 
 [node name="Sprite" type="AnimatedSprite" parent="TreasureHunter"]
 scale = Vector2( 0.05, 0.05 )
-frames = SubResource( 8 )
+frames = SubResource( 13 )
+frame = 1
 playing = true
 
 [node name="Player4" parent="." instance=ExtResource( 3 )]
