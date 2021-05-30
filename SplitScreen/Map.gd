@@ -100,12 +100,16 @@ func _ready():
 	player.append(player1)
 	player.append(player2)
 	player1.setup()
+	# set speed = 0, such that player is not movable in controls-view
+	player1.speed = 0
 	player2.setup()
+	player2.speed = 0
 	if(playerCount > 2):
 		viewport3.world_2d = viewport1.world_2d
 		camera3.target = player3
 		player.append(player3)
 		player3.setup()
+		player3.speed = 0
 		player3.get_node("Sprite").visible = true
 	else:
 		world.remove_child(player3)
@@ -115,12 +119,14 @@ func _ready():
 		camera4.target = player4
 		player.append(player4)
 		player4.setup()
+		player4.speed = 0
 		player4.get_node("Sprite").visible = true
 	else:
 		world.remove_child(player4)
 	
 	
 	showControlsTimer.start()
+	
 	load_control_schemes()
 	
 	
@@ -129,11 +135,16 @@ func setupPlayer(number):
 
 func round_end_time():
 	emit_signal("roundOver", false)
+	pausePlayerInput(true)
 	change_state(STATE_BETWEEN_ROUNDS)
 
 #is one of [1,2,3,4]
 func round_end_won(playerWon):
+	if current_global_state != STATE_PLAYING:
+		return
+	
 	emit_signal("roundOver", true)
+	pausePlayerInput(true)
 	
 	numberOfWins[playerWon - 1] += 1
 	
@@ -145,9 +156,9 @@ func round_end_won(playerWon):
 
 func remove_item(id):
 	for N in world.get_children():
-		if(N.name == "Item_"+str(id)):
-			world.remove_child(N)
-			break
+		if("Item_"+str(id) in N.name):
+			print("Removed single Item: "+N.name)
+			N.queue_free()
 
 func refreshItemView(items, id):
 	var itemBox
@@ -161,13 +172,13 @@ func refreshItemView(items, id):
 			start = 1-(items.size()-1)*0.2
 		2:
 			itemBox = items2
-			items.invert()
-			increment = 0.2
-			start = 1-(items.size()-1)*0.2
 		3:
 			itemBox = items3
 		4:
 			itemBox = items4
+			items.invert()
+			increment = 0.2
+			start = 1-(items.size()-1)*0.2
 			
 	for N in itemBox.get_children():
 		itemBox.remove_child(N)
@@ -203,6 +214,8 @@ func _process(delta):
 		if (showControlsTimer.time_left <= nextRoundedInt && nextRoundedInt >= 0):
 			nextRoundedInt -= 1
 			$"CountdownAudioPlayer".play()
+			topTimeLabel.text = str(currentShowControlsTime)
+			bottomTimeLabel.text = str(currentShowControlsTime)
 		
 		if (Input.is_action_pressed("up_1") || Input.is_action_pressed("down_1") || Input.is_action_pressed("left_1") || Input.is_action_pressed("right_1") || Input.is_action_pressed("action_1")):
 			show_controls_border_for_player_id(1)
@@ -227,13 +240,8 @@ func _process(delta):
 			
 		if (Input.is_action_just_released("up_4") || Input.is_action_just_released("down_4") || Input.is_action_just_released("left_4") || Input.is_action_just_released("right_4") || Input.is_action_just_released("action_4")):
 			hide_controls_border_for_player(4)
-			
-		# topTimeLabel.text = str(currentShowControlsTime)
-		# bottomTimeLabel.text = str(currentShowControlsTime)
 	
 	if current_global_state == STATE_BETWEEN_ROUNDS:
-		topTimeLabel.text = str(round($"ShowScoresTimer".time_left))
-		bottomTimeLabel.text = str(round($"ShowScoresTimer".time_left))
 		
 		if (!GameBgmAudioPlayer.playing && $"ShowScoresTimer".time_left <= 2):
 			GameBgmAudioPlayer.play()
@@ -241,11 +249,8 @@ func _process(delta):
 		if ($"ShowScoresTimer".time_left <= nextRoundedInt && nextRoundedInt >= 0):
 			nextRoundedInt -= 1
 			$"CountdownAudioPlayer".play()
-		
-	if current_global_state == STATE_GAME_END:
-		topTimeLabel.text = "You ate the Treasure Hunter!"
-		bottomTimeLabel.text = "May he never hunt treasures again!"
-	
+			topTimeLabel.text = str(round($"ShowScoresTimer".time_left))
+			bottomTimeLabel.text = str(round($"ShowScoresTimer".time_left))
 
 func display_time():
 	var timeString
@@ -253,6 +258,8 @@ func display_time():
 		timeString = str(remainingTime as int)
 	else:
 		timeString = str(floor(remainingTime *100)/100)
+		topTimeLabel.add_color_override("font_color", Color(1,0,0))
+		bottomTimeLabel.add_color_override("font_color", Color(1,0,0))
 	
 	topTimeLabel.text = timeString
 	bottomTimeLabel.text = timeString
@@ -260,6 +267,8 @@ func display_time():
 	
 # caller is player id [1,2,3,4]
 func call_action(type,caller):
+	if current_global_state != STATE_PLAYING:
+		return
 	var affects = get_item_config(type, "affects")
 	print(type +" affects: "+str(affects))
 	match affects:
@@ -315,14 +324,32 @@ func get_config(section, attribute):
 	
 	
 func change_state(new_state):
+	topTimeLabel.add_color_override("font_color", Color("#66545e"))
+	bottomTimeLabel.add_color_override("font_color", Color("#66545e"))
 	nextRoundedInt = WAITING_TIMEOUT
 	current_global_state = new_state
 	match(new_state):
 		STATE_PLAYING:
+			pausePlayerInput(false)
+			var defaultPlayerSpeed = get_config("player", "speed")
+			player1.speed = defaultPlayerSpeed
+			player2.speed = defaultPlayerSpeed
+			if playerCount >= 3:
+				player3.speed = defaultPlayerSpeed
+			if playerCount >= 4:
+				player4.speed = defaultPlayerSpeed
+			
 			hide_view_ports(controlContainers)
 			show_view_ports(camera_viewports)
 			start_round()
 		STATE_BETWEEN_ROUNDS:
+			player1.speed = 0
+			player2.speed = 0
+			if playerCount >= 3:
+				player3.speed = 0
+			if playerCount >= 4:
+				player4.speed = 0
+			
 			hide_view_ports(camera_viewports)
 			show_view_ports(controlContainers)
 			# show labels indicating points
@@ -330,14 +357,22 @@ func change_state(new_state):
 			for label in controls_labels:
 				label.text = "Wins: " + str(numberOfWins[i])
 				i += 1
-			
+				
+			# hide non-player containers
+			if playerCount == 2:
+				controlContainers[2].visible = false
+				controlContainers[3].visible = false
+				camera_viewports[2].visible = true
+				camera_viewports[3].visible = true
+				
+			if playerCount == 3:
+				controlContainers[3].visible = false
+				camera_viewports[3].visible = true
+				
 			# wait until timer is over and return to STATE_PLAYING
 			$"ShowScoresTimer".start(5)
 			
 		STATE_GAME_END:
-			hide_view_ports(camera_viewports)
-			show_view_ports(controlContainers)
-			
 			onGameOver()
 			
 
@@ -352,6 +387,9 @@ func show_view_ports(viewports_to_show):
 	for viewport in viewports_to_show:
 		viewport.visible = true
 
+func pausePlayerInput(isPaused):
+	for p in player:
+		p.setPausePlayerInput(isPaused)
 
 func load_control_schemes():
 	# setup control screen for each player
@@ -363,12 +401,18 @@ func load_control_schemes():
 		
 		player_id += 1
 		
+	# auskommentieren, wenn spieler wieder sortiert angezeigt werden sollen:
 	if playerCount == 2:
 		controlContainers[1].get_node("PlayerLabel").text = "Player 2"
 		
 	if playerCount == 3:
-		controlContainers[1].get_node("PlayerLabel").text = "Player 3"
-		controlContainers[2].get_node("PlayerLabel").text = "Player 2"
+		controlContainers[1].get_node("PlayerLabel").text = "Player 2"
+		controlContainers[2].get_node("PlayerLabel").text = "Player 3"
+		
+	if playerCount == 4:
+		controlContainers[1].get_node("PlayerLabel").text = "Player 2"
+		controlContainers[2].get_node("PlayerLabel").text = "Player 3"
+		controlContainers[3].get_node("PlayerLabel").text = "Player 4"
 		
 	while player_id <= 4:
 		camera_viewports[player_id - 1].visible = true

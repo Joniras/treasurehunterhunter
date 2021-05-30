@@ -11,6 +11,7 @@ func _ready():
 		MenuBgmAudioPlayer.play()
 	startPage = load("res://StartPage.tscn").instance()
 	winnerLabel.text = "Player " + str(winner)
+	get_node("VBoxContainer/Panel2/HBoxContainer/HBoxContainer2/MarginContainer/btnExit").grab_focus()
 
 
 func setPlayerCount(count):

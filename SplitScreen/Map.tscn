@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Labyrinth.tscn" type="PackedScene" id=1]
 [ext_resource path="res://SplitScreen/Map.gd" type="Script" id=2]
@@ -6,21 +6,43 @@
 [ext_resource path="res://fonts/blockbusta.tres" type="DynamicFont" id=4]
 [ext_resource path="res://sounds/tick.ogg" type="AudioStream" id=5]
 
-[sub_resource type="StyleBoxLine" id=1]
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.639216, 0.568627, 0.576471, 1 )
+border_color = Color( 0.933333, 0.662745, 0.564706, 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.4, 0.329412, 0.368627, 1 )
+
+[sub_resource type="StyleBoxLine" id=2]
 thickness = 0
 vertical = true
 
-[sub_resource type="StyleBoxLine" id=2]
+[sub_resource type="StyleBoxLine" id=3]
 grow_begin = 0.0
 grow_end = 0.0
 thickness = 0
 
-[sub_resource type="StyleBoxLine" id=3]
+[sub_resource type="StyleBoxLine" id=4]
+color = Color( 0.639216, 0.568627, 0.576471, 1 )
 thickness = 6
 vertical = true
 
-[sub_resource type="StyleBoxLine" id=4]
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.4, 0.329412, 0.368627, 1 )
+
+[sub_resource type="StyleBoxLine" id=5]
+color = Color( 0.639216, 0.568627, 0.576471, 1 )
 thickness = 6
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.4, 0.329412, 0.368627, 1 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.4, 0.329412, 0.368627, 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.639216, 0.568627, 0.576471, 1 )
+border_color = Color( 0.933333, 0.662745, 0.564706, 1 )
 
 [node name="Map" type="Node"]
 script = ExtResource( 2 )
@@ -40,6 +62,7 @@ margin_right = 1920.0
 margin_bottom = 74.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.08
+custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -76,6 +99,7 @@ margin_bottom = 62.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0.4, 0.329412, 0.368627, 1 )
 text = "0:34"
 align = 1
 __meta__ = {
@@ -125,21 +149,18 @@ margin_right = 1916.0
 margin_bottom = 463.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_styles/panel = SubResource( 7 )
 
 [node name="Panel" type="Panel" parent="Container/ViewportContainer/HBoxContainerTop/ControlsPanelContainer1"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 1909.0
-margin_bottom = 456.0
+margin_right = 1916.0
+margin_bottom = 463.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
 
 [node name="PlayerLabel" type="Label" parent="Container/ViewportContainer/HBoxContainerTop/ControlsPanelContainer1"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 1909.0
-margin_bottom = 58.0
+margin_right = 1916.0
+margin_bottom = 51.0
 size_flags_vertical = 0
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
@@ -153,7 +174,7 @@ margin_top = 179.0
 margin_right = 1153.0
 margin_bottom = 284.0
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
 text = "MOVEMENT: W A S D
@@ -165,14 +186,13 @@ __meta__ = {
 
 [node name="ViewportContainer1" type="ViewportContainer" parent="Container/ViewportContainer/HBoxContainerTop"]
 visible = false
-margin_left = 642.0
-margin_right = 1281.0
-margin_bottom = 464.0
+margin_right = 1916.0
+margin_bottom = 463.0
 size_flags_horizontal = 3
 stretch = true
 
 [node name="Viewport1" type="Viewport" parent="Container/ViewportContainer/HBoxContainerTop/ViewportContainer1"]
-size = Vector2( 958, 464 )
+size = Vector2( 1916, 463 )
 handle_input_locally = false
 render_target_update_mode = 0
 
@@ -188,7 +208,7 @@ script = ExtResource( 3 )
 margin_left = 958.0
 margin_right = 962.0
 margin_bottom = 463.0
-custom_styles/separator = SubResource( 3 )
+custom_styles/separator = SubResource( 4 )
 
 [node name="ViewportContainer3" type="ViewportContainer" parent="Container/ViewportContainer/HBoxContainerTop"]
 visible = false
@@ -216,6 +236,7 @@ margin_right = 1920.0
 margin_bottom = 463.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_styles/panel = SubResource( 8 )
 
 [node name="Panel" type="Panel" parent="Container/ViewportContainer/HBoxContainerTop/ControlsPanelContainer3"]
 margin_left = 7.0
@@ -224,7 +245,7 @@ margin_right = 1909.0
 margin_bottom = 456.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
 
 [node name="PlayerLabel" type="Label" parent="Container/ViewportContainer/HBoxContainerTop/ControlsPanelContainer3"]
 margin_left = 7.0
@@ -244,7 +265,7 @@ margin_top = 179.0
 margin_right = 1153.0
 margin_bottom = 284.0
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
 text = "MOVEMENT: W A S D
@@ -258,7 +279,7 @@ __meta__ = {
 margin_top = 463.0
 margin_right = 1920.0
 margin_bottom = 467.0
-custom_styles/separator = SubResource( 4 )
+custom_styles/separator = SubResource( 5 )
 
 [node name="HBoxContainerBottom" type="HBoxContainer" parent="Container/ViewportContainer"]
 margin_top = 467.0
@@ -288,25 +309,22 @@ script = ExtResource( 3 )
 
 [node name="ControlsPanelContainer4" type="PanelContainer" parent="Container/ViewportContainer/HBoxContainerBottom"]
 visible = false
-margin_right = 958.0
+margin_right = 1916.0
 margin_bottom = 464.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_styles/panel = SubResource( 9 )
 
 [node name="Panel" type="Panel" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer4"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 951.0
-margin_bottom = 457.0
+margin_right = 1916.0
+margin_bottom = 464.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
 
 [node name="PlayerLabel" type="Label" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer4"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 951.0
-margin_bottom = 58.0
+margin_right = 1916.0
+margin_bottom = 51.0
 size_flags_vertical = 0
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
@@ -315,12 +333,12 @@ align = 1
 valign = 1
 
 [node name="lblInput" type="Label" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer4"]
-margin_left = 283.0
+margin_left = 762.0
 margin_top = 179.0
-margin_right = 674.0
+margin_right = 1153.0
 margin_bottom = 284.0
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
 text = "MOVEMENT: W A S D
@@ -334,18 +352,18 @@ __meta__ = {
 margin_left = 958.0
 margin_right = 962.0
 margin_bottom = 464.0
-custom_styles/separator = SubResource( 3 )
+custom_styles/separator = SubResource( 4 )
 
 [node name="ViewportContainer2" type="ViewportContainer" parent="Container/ViewportContainer/HBoxContainerBottom"]
 visible = false
-margin_left = 642.0
-margin_right = 1281.0
+margin_left = 4.0
+margin_right = 1920.0
 margin_bottom = 464.0
 size_flags_horizontal = 3
 stretch = true
 
 [node name="Viewport2" type="Viewport" parent="Container/ViewportContainer/HBoxContainerBottom/ViewportContainer2"]
-size = Vector2( 958, 464 )
+size = Vector2( 1916, 464 )
 handle_input_locally = false
 render_target_update_mode = 0
 
@@ -362,21 +380,18 @@ margin_right = 1920.0
 margin_bottom = 464.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_styles/panel = SubResource( 10 )
 
 [node name="Panel" type="Panel" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer2"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 1909.0
-margin_bottom = 457.0
+margin_right = 1916.0
+margin_bottom = 464.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
 
 [node name="PlayerLabel" type="Label" parent="Container/ViewportContainer/HBoxContainerBottom/ControlsPanelContainer2"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 1909.0
-margin_bottom = 58.0
+margin_right = 1916.0
+margin_bottom = 51.0
 size_flags_vertical = 0
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
@@ -390,7 +405,7 @@ margin_top = 179.0
 margin_right = 1153.0
 margin_bottom = 284.0
 size_flags_horizontal = 4
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.662745, 0.564706, 1 )
 text = "MOVEMENT: W A S D
@@ -406,6 +421,7 @@ margin_right = 1920.0
 margin_bottom = 1080.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.08
+custom_styles/panel = SubResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -438,6 +454,7 @@ margin_bottom = 63.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0.4, 0.329412, 0.368627, 1 )
 text = "0:34"
 align = 1
 __meta__ = {
