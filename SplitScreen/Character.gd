@@ -141,7 +141,7 @@ func get_action_called(type):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	$"AnimationPlayer2".play("torch")
 
 func adjustPositionToGrid():
 	position = position.snapped(Vector2.ONE * tile_size)
