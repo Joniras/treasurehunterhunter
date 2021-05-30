@@ -73,7 +73,9 @@ animations = [ {
 script = ExtResource( 2 )
 
 [node name="GlobalShadow" type="Light2D" parent="."]
+visible = false
 scale = Vector2( 10, 10 )
+z_index = -1
 texture = ExtResource( 4 )
 energy = 8.92
 mode = 1
@@ -99,11 +101,12 @@ shape = SubResource( 3 )
 [node name="Sprite" type="AnimatedSprite" parent="TreasureHunter"]
 scale = Vector2( 0.05, 0.05 )
 frames = SubResource( 8 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="Player4" parent="." instance=ExtResource( 3 )]
 position = Vector2( -45.614, -52.0285 )
+z_index = 1
 id = 4
 
 [node name="Player2" parent="." instance=ExtResource( 3 )]

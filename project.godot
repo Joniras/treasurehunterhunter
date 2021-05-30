@@ -28,6 +28,7 @@ config/icon="res://icon.png"
 
 GameBgmAudioPlayer="*res://GameBgmAudioPlayer.tscn"
 MenuBgmAudioPlayer="*res://MenuBgmAudioPlayer.tscn"
+ShortestPath="*res://Scripts/ShortestPath.gd"
 
 [display]
 

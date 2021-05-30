@@ -110,6 +110,15 @@ func get_action_called(type):
 	elif (type == "bomb"):
 		speed = 0
 		bomb_time_left += game.get_item_config(type, "duration")
+	elif (type == "path"):
+		var betterPos = newPos
+		betterPos.x -= (tile_size/2) 
+		betterPos.y -= (tile_size/2) 
+		betterPos = betterPos/tile_size
+		print("PLAYER AT TILE POSTION:")
+		print(betterPos)
+		
+		game.showShortestPath(betterPos, id)
 		
 
 # Called when the node enters the scene tree for the first time.
