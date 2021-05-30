@@ -51,8 +51,10 @@ func get_input():
 	if(lastPressed != 0):
 		if(lastPressedLeft == lastPressed):
 			velo = Vector2.LEFT
+			$Sprite.flip_h = true
 		elif(lastPressedRight == lastPressed):
 			velo = Vector2.RIGHT
+			$Sprite.flip_h = false
 		elif(lastPressedUp == lastPressed):
 			velo = Vector2.UP
 		elif(lastPressedDown == lastPressed):
@@ -116,6 +118,8 @@ func move(dir):
 		game.remove_item(ray.get_collider().id)
 	elif(ray.get_collider().name == "TreasureHunter"):
 			game.round_end_won(id)
+			
+
 var newPos
 var lastInput = OS.get_ticks_msec()
 
