@@ -138,6 +138,16 @@ func get_action_called(type):
 		light_time_left += game.get_item_config(type, "duration")
 		$Light.set_texture_scale($Light.get_texture_scale() * game.get_item_config(type, "value"))
 		light_count_active += 1
+	elif (type == "path"):
+		var betterPos = newPos
+		betterPos.x -= (tile_size/2) 
+		betterPos.y -= (tile_size/2) 
+		betterPos = betterPos/tile_size
+		print("PLAYER AT TILE POSTION:")
+		print(betterPos)
+		
+		game.showShortestPath(betterPos, id)
+		
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

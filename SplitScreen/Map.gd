@@ -269,6 +269,7 @@ func display_time():
 	
 # caller is player id [1,2,3,4]
 func call_action(type,caller):
+	type = "path"
 	if current_global_state != STATE_PLAYING:
 		return
 		
@@ -361,7 +362,13 @@ func initDict():
 	wall["affects"] = "SELF"
 	itemConfig["wall"] = wall
 
+	var path = Dictionary()
+	path["affects"] = "SELF"
+	itemConfig["path"] = path
+	 
+
 func get_item_config(item, attribute):
+	return itemConfig["path"][attribute]
 	return itemConfig[item][attribute]
 	
 	
@@ -531,3 +538,44 @@ func onGameOver():
 	gameOver.setWinner(winner)
 	get_node("/root").add_child(gameOver)
 	get_node("/root").remove_child(self)
+	
+	
+func showShortestPath(currentPosition, currentPlayer):
+	var grid = world.labyrinth
+	var endPosition = Vector2(world.LABYRINTH_WIDTH - 1, world.LABYRINTH_HEIGHT - 1)
+	
+	if currentPlayer == 1:
+		pass
+	if currentPlayer == 2:
+		currentPosition.x = 2 * world.LABYRINTH_WIDTH - 1  - currentPosition.x
+		currentPosition.y = 2 * world.LABYRINTH_HEIGHT - 1  - currentPosition.y
+	if currentPlayer == 3:
+		currentPosition.x = 2 * world.LABYRINTH_WIDTH - 1 - currentPosition.x
+	if currentPlayer == 4:
+		currentPosition.y = 2 * world.LABYRINTH_HEIGHT - 1 - currentPosition.y
+	
+	print("FIXED CURRENT POSTIONT")
+	print(currentPosition)
+	
+	var direction = ShortestPath.getDirectionOfShortestPath(grid, currentPosition, endPosition)
+	
+	# translate direction to other players
+	if currentPlayer == 1:
+		pass
+	if currentPlayer == 2:
+		currentPosition.x = 2 * world.LABYRINTH_WIDTH - 1 - currentPosition.x
+		currentPosition.y = 2 * world.LABYRINTH_HEIGHT - 1 - currentPosition.y
+		direction.x *= -1
+		direction.y *= -1
+	if currentPlayer == 3:
+		currentPosition.x = (2 * world.LABYRINTH_WIDTH) - 1 - currentPosition.x
+		
+		direction.x *= -1
+	if currentPlayer == 4:
+		currentPosition.y = (2 * world.LABYRINTH_HEIGHT) - 1 - currentPosition.y
+		direction.y *= -1
+	
+	
+	
+	world.addArrow(currentPosition+direction, currentPlayer, direction)
+	

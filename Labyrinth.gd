@@ -91,6 +91,9 @@ func remove_all_items():
 		if("Item_" in N.name):
 			# print("removed Item "+N.name)
 			N.queue_free()
+		if("Arrow" in N.name):
+			# print("removed Item "+N.name)
+			N.queue_free()
 
 func redrawAllItems():
 	var countItems = 0
@@ -237,6 +240,22 @@ func destroy_tiles(position_vector):
 	$"Node2D/TileMap".set_cell(x, y + 1, 0, false, false, false, PASSAGE_TILE)
 	$"Node2D/TileMap".set_cell(x - 1, y, 0, false, false, false, PASSAGE_TILE)
 	$"Node2D/TileMap".set_cell(x, y - 1, 0, false, false, false, PASSAGE_TILE)
+	
+func addArrow(pos, playerId, direction):
+	var arrow = load("res://ShortestPath/Arrow.tscn").instance()
+	arrow.name = "Arrow"
+	# pfeil schaut per default nach recht (direction= (1, 0))
+	if (direction.x == 1 && direction.y == 0):
+		pass
+	if (direction.x == -1 && direction.y == 0):
+		arrow.rotate(-PI)
+	if (direction.x == 0 && direction.y == 1):
+		arrow.rotate(PI / 2)
+	if (direction.x == 0 && direction.y == -1):
+		arrow.rotate(3 * PI / 2)
+	
+	arrow.position = Vector2(pos.x*tile_size+2, pos.y*tile_size+2)
+	self.add_child(arrow)
 
 func _on_Map_roundOver(recreateMap):
 	init(recreateMap)
