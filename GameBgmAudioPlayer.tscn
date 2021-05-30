@@ -4,3 +4,4 @@
 
 [node name="game_bgm_player" type="AudioStreamPlayer"]
 stream = ExtResource( 1 )
+volume_db = -5.0

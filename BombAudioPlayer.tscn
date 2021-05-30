@@ -4,3 +4,4 @@
 
 [node name="BombAudioPlayer" type="AudioStreamPlayer"]
 stream = ExtResource( 1 )
+volume_db = 4.039
