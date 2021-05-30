@@ -106,6 +106,7 @@ shape = SubResource( 4 )
 [node name="Sprite" type="AnimatedSprite" parent="TreasureHunter"]
 scale = Vector2( 0.05, 0.05 )
 frames = SubResource( 9 )
+frame = 4
 playing = true
 
 [node name="Player4" parent="." instance=ExtResource( 3 )]

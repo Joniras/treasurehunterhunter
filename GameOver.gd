@@ -21,6 +21,7 @@ func setWinner(playernumber):
 	winner = playernumber
 	
 func _on_btnExit_pressed():
+	MenuBgmAudioPlayer.stop()
 	get_node("/root").add_child(startPage)
 	get_node("/root").remove_child(self)
 

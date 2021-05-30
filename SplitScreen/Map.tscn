@@ -478,6 +478,7 @@ margin_right = 638.0
 margin_bottom = 75.0
 
 [node name="ShowControlsTimer" type="Timer" parent="."]
+wait_time = 5.0
 one_shot = true
 
 [node name="ShowScoresTimer" type="Timer" parent="."]
