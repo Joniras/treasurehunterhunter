@@ -328,7 +328,19 @@ func initDict():
 	var stun = Dictionary()
 	stun["duration"] = 4000
 	stun["affects"] = "ALL_OTHER"
+	stun["value"] = 0.5
 	itemConfig["stun"] = stun
+	
+	var bomb = Dictionary()
+	bomb["duration"] = 2000
+	bomb["affects"] = "RANDOM_OTHER"
+	itemConfig["bomb"] = bomb
+	
+	var speed = Dictionary()
+	speed["duration"] = 4000
+	speed["affects"] = "SELF"
+	speed["value"] = 2
+	itemConfig["speed"] = speed
 	 
 
 func get_item_config(item, attribute):
