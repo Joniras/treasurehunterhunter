@@ -20,7 +20,7 @@ var pendingCells: Array
 var labyrinth = []
 
 
-var types = ["stun","speed","bomb","light","wall","path"]
+var types = ["stun","speed","slow","light","wall","path"]
 	
 var tile_size = 4
 
@@ -136,7 +136,8 @@ func generateLabyrinth(startingCell: Vector2):
 	for pos in startAndEndPositions:
 		labyrinth[pos.x][pos.y] = PASSAGE
 	sprinkleItems()
-	add_item_mirrored(1,1,"stun", 11)
+	add_item_mirrored(1,1,"light", 11)
+	add_item_mirrored(1,2,"light", 12)
 
 func sprinkleItems():
 	var countItems = randi()%10;
@@ -225,7 +226,15 @@ func checkBounds(cell: Vector2):
 func drawTile(position: Vector2, tile: Vector2):
 	$"Node2D/TileMap".set_cell(position.x, position.y, 0, false, false, false, tile)
 
-
+func destroy_tiles(position_vector):
+	
+	# manip position
+	var x = (position_vector.x - 2) / 4
+	var y = (position_vector.y - 2) / 4
+	$"Node2D/TileMap".set_cell(x + 1, y, 0, false, false, false, PASSAGE_TILE)
+	$"Node2D/TileMap".set_cell(x, y + 1, 0, false, false, false, PASSAGE_TILE)
+	$"Node2D/TileMap".set_cell(x - 1, y, 0, false, false, false, PASSAGE_TILE)
+	$"Node2D/TileMap".set_cell(x, y - 1, 0, false, false, false, PASSAGE_TILE)
 
 func _on_Map_roundOver(recreateMap):
 	init(recreateMap)

@@ -271,6 +271,9 @@ func display_time():
 func call_action(type,caller):
 	if current_global_state != STATE_PLAYING:
 		return
+		
+	if (type == "wall"):
+		world.destroy_tiles(player[caller - 1].newPos)
 	var affects = get_item_config(type, "affects")
 	print(type +" affects: "+str(affects))
 	match affects:
@@ -306,7 +309,7 @@ func call_random(type):
 func call_random_other(type, caller):
 	var to = caller-1
 	while(to == caller-1):
-		to = rng.randi_range(0, playerCount)
+		to = rng.randi_range(0, playerCount - 1)
 	player[to].get_action_called(type)
 	
 	
@@ -325,23 +328,32 @@ func initDict():
 	gameConfig["roundTime"] = 60
 	
 	
-	var stun = Dictionary()
-	stun["duration"] = 4000
-	stun["affects"] = "ALL_OTHER"
-	stun["value"] = 0.5
-	itemConfig["stun"] = stun
+	var slow = Dictionary()
+	slow["duration"] = 4000
+	slow["affects"] = "ALL_OTHER"
+	slow["value"] = 0.5
+	itemConfig["slow"] = slow
 	
-	var bomb = Dictionary()
-	bomb["duration"] = 2000
-	bomb["affects"] = "RANDOM_OTHER"
-	itemConfig["bomb"] = bomb
+	var stun = Dictionary()
+	stun["duration"] = 2000
+	stun["affects"] = "RANDOM_OTHER"
+	itemConfig["stun"] = stun
 	
 	var speed = Dictionary()
 	speed["duration"] = 4000
 	speed["affects"] = "SELF"
 	speed["value"] = 2
 	itemConfig["speed"] = speed
-	 
+	
+	var light = Dictionary()
+	light["duration"] = 4000
+	light["affects"] = "SELF"
+	light["value"] = 1.5
+	itemConfig["light"] = light
+
+	var wall = Dictionary()
+	wall["affects"] = "SELF"
+	itemConfig["wall"] = wall
 
 func get_item_config(item, attribute):
 	return itemConfig[item][attribute]
