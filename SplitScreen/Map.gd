@@ -85,7 +85,7 @@ var nextRoundedInt = WAITING_TIMEOUT
 signal roundOver(recreateMap)
 
 func _ready():
-	
+	initDict()
 	#stop all players
 	MenuBgmAudioPlayer.stop()
 	GameBgmAudioPlayer.stop()
@@ -145,6 +145,7 @@ func round_end_won(playerWon):
 	
 	emit_signal("roundOver", true)
 	pausePlayerInput(true)
+	GameBgmAudioPlayer.stop()
 	
 	numberOfWins[playerWon - 1] += 1
 	
@@ -157,7 +158,7 @@ func round_end_won(playerWon):
 func remove_item(id):
 	for N in world.get_children():
 		if("Item_"+str(id) in N.name):
-			print("Removed single Item: "+N.name)
+			# print("Removed single Item: "+N.name)
 			N.queue_free()
 
 func refreshItemView(items, id):
@@ -193,6 +194,7 @@ func refreshItemView(items, id):
 
 func _physics_process(delta):
 	if (current_global_state == STATE_PLAYING):
+		
 		if(remainingTime>0):
 			remainingTime-= delta
 		if(remainingTime <= 0):
@@ -201,7 +203,7 @@ func _physics_process(delta):
 			display_time()
 
 func start_round():
-	remainingTime = get_config("game","roundTime")
+	remainingTime = get_config("roundTime")
 	world.set_player_positions()
 
 func _process(delta):	
@@ -312,15 +314,29 @@ func call_all(type):
 	for _player in player:
 		_player.get_action_called(type)
 
+var gameConfig = Dictionary()
+
+
+var itemConfig = Dictionary()
+
+func initDict():
+	gameConfig["speed"] = 5
+	gameConfig["itemCount"] = 5
+	gameConfig["roundTime"] = 60
+	
+	
+	var stun = Dictionary()
+	stun["duration"] = 4000
+	stun["affects"] = "ALL_OTHER"
+	itemConfig["stun"] = stun
+	 
 
 func get_item_config(item, attribute):
-	return items.get_value(item, attribute, -1)
+	return itemConfig[item][attribute]
 	
 	
-func get_config(section, attribute):
-	var _config = config.get_value(section, attribute, -1)
-	print("Got "+section+":"+attribute+" result: " + str(_config))
-	return _config
+func get_config(attribute):
+	return gameConfig[attribute]
 	
 	
 func change_state(new_state):
@@ -331,7 +347,7 @@ func change_state(new_state):
 	match(new_state):
 		STATE_PLAYING:
 			pausePlayerInput(false)
-			var defaultPlayerSpeed = get_config("player", "speed")
+			var defaultPlayerSpeed = get_config("speed")
 			player1.speed = defaultPlayerSpeed
 			player2.speed = defaultPlayerSpeed
 			if playerCount >= 3:

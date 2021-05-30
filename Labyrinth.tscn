@@ -1,10 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/signExit.png" type="Texture" id=1]
 [ext_resource path="res://Labyrinth.gd" type="Script" id=2]
 [ext_resource path="res://SplitScreen/Character.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/background.png" type="Texture" id=4]
-[ext_resource path="res://assets/abenteurer.png" type="Texture" id=5]
+[ext_resource path="res://items/character_maleAdventurer_sheet.png" type="Texture" id=5]
 [ext_resource path="res://assets/tileset.png" type="Texture" id=6]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
@@ -45,11 +45,34 @@ points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5.20712, 5.53617 )
 
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 96, 128 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 5 )
+region = Rect2( 384, 0, 96, 128 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 5 )
+region = Rect2( 672, 0, 96, 128 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 5 )
+region = Rect2( 768, 0, 96, 128 )
+
+[sub_resource type="SpriteFrames" id=8]
+animations = [ {
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="GlobalShadow" type="Light2D" parent="."]
-visible = false
 scale = Vector2( 10, 10 )
 texture = ExtResource( 4 )
 energy = 8.92
@@ -69,12 +92,14 @@ tile_data = PoolIntArray( -983058, 0, 0, -983057, 0, 0, -983056, 0, 0, -983055, 
 
 [node name="TreasureHunter" type="KinematicBody2D" parent="."]
 
-[node name="Sprite" type="Sprite" parent="TreasureHunter"]
-scale = Vector2( 0.02, 0.02 )
-texture = ExtResource( 5 )
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TreasureHunter"]
 shape = SubResource( 3 )
+
+[node name="Sprite" type="AnimatedSprite" parent="TreasureHunter"]
+scale = Vector2( 0.05, 0.05 )
+frames = SubResource( 8 )
+frame = 2
+playing = true
 
 [node name="Player4" parent="." instance=ExtResource( 3 )]
 position = Vector2( -45.614, -52.0285 )
