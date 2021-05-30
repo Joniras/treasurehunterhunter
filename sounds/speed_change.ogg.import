@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/speed_change.ogg-fedc615a01bf3c24a73b7d37a816ef3d.oggstr"
+
+[deps]
+
+source_file="res://sounds/speed_change.ogg"
+dest_files=[ "res://.import/speed_change.ogg-fedc615a01bf3c24a73b7d37a816ef3d.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

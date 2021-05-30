@@ -28,6 +28,9 @@ config/icon="res://icon.png"
 
 GameBgmAudioPlayer="*res://GameBgmAudioPlayer.tscn"
 MenuBgmAudioPlayer="*res://MenuBgmAudioPlayer.tscn"
+BombAudioPlayer="*res://BombAudioPlayer.tscn"
+SpeedAudioPlayer="*res://SpeedAudioPlayer.tscn"
+WhooshAudioPlayer="*res://WhooshAudioPlayer.tscn"
 
 [display]
 

@@ -274,6 +274,12 @@ func call_action(type,caller):
 		
 	if (type == "wall"):
 		world.destroy_tiles(player[caller - 1].newPos)
+		BombAudioPlayer.play()
+	elif (type == "light"):
+		WhooshAudioPlayer.play()
+	else:
+		SpeedAudioPlayer.play()
+		
 	var affects = get_item_config(type, "affects")
 	print(type +" affects: "+str(affects))
 	match affects:
