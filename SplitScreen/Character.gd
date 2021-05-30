@@ -18,10 +18,15 @@ var tile_size = 4;
 # Stun
 var stun_timeLeft = 0
 
+var pauseInput = false
+
 
 var velo = Vector2()
 
 func get_input():
+	if pauseInput:
+		return
+
 	if(Input.is_action_just_pressed("left_%s"%id)):
 		lastPressedLeft = OS.get_ticks_msec();
 	if (Input.is_action_just_pressed('right_%s'%id)):
@@ -125,6 +130,8 @@ func add_item(type):
 		items.pop_back()
 	game.refreshItemView(items.duplicate(), id)
 	
+func setPausePlayerInput(pauseInput):
+	self.pauseInput = pauseInput
 	
 func move_tween(dir):
 	newPos = newPos + dir * tile_size
