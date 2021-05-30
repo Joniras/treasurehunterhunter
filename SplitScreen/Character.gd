@@ -16,8 +16,8 @@ onready var tween = $Tween
 var tile_size = 4;
 
 # Stun
+var slow_time_left = 0
 var stun_time_left = 0
-var bomb_time_left = 0
 var speed_time_left = 0
 
 var pauseInput = false
@@ -73,15 +73,15 @@ func do_action():
 func _physics_process(delta):
 	get_input()
 	
-	if (bomb_time_left):
-		bomb_time_left -= delta * 1000
-		if (bomb_time_left <= 0):
-			speed = game.get_config("speed")
-	
-	if (stun_time_left > 0):
+	if (stun_time_left):
 		stun_time_left -= delta * 1000
 		if (stun_time_left <= 0):
-			speed /= game.get_item_config("stun", "value")
+			speed = game.get_config("speed")
+	
+	if (slow_time_left > 0):
+		slow_time_left -= delta * 1000
+		if (slow_time_left <= 0):
+			speed /= game.get_item_config("slow", "value")
 			
 	if (speed_time_left > 0):
 		speed_time_left -= delta * 1000
@@ -101,15 +101,15 @@ func _physics_process(delta):
 
 func get_action_called(type):
 	print("Player "+str(id)+" got action called "+ type)
-	if (type == "stun"):
+	if (type == "slow"):
 		speed *= game.get_item_config(type, "value")
-		stun_time_left += game.get_item_config(type, "duration")
+		slow_time_left += game.get_item_config(type, "duration")
 	elif (type == "speed"):
 		speed *= game.get_item_config(type, "value")
 		speed_time_left *= game.get_item_config(type, "duration")
-	elif (type == "bomb"):
+	elif (type == "stun"):
 		speed = 0
-		bomb_time_left += game.get_item_config(type, "duration")
+		stun_time_left += game.get_item_config(type, "duration")
 		
 
 # Called when the node enters the scene tree for the first time.
