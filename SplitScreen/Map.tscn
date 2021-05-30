@@ -198,7 +198,7 @@ render_target_update_mode = 0
 
 [node name="Camera2D" type="Camera2D" parent="Container/ViewportContainer/HBoxContainerTop/ViewportContainer1/Viewport1"]
 current = true
-zoom = Vector2( 0.1, 0.1 )
+zoom = Vector2( 0.08, 0.08 )
 smoothing_enabled = true
 script = ExtResource( 3 )
 
@@ -225,7 +225,7 @@ render_target_update_mode = 0
 
 [node name="Camera2D" type="Camera2D" parent="Container/ViewportContainer/HBoxContainerTop/ViewportContainer3/Viewport3"]
 current = true
-zoom = Vector2( 0.1, 0.1 )
+zoom = Vector2( 0.08, 0.08 )
 smoothing_enabled = true
 script = ExtResource( 3 )
 
@@ -303,7 +303,7 @@ render_target_update_mode = 0
 
 [node name="Camera2D" type="Camera2D" parent="Container/ViewportContainer/HBoxContainerBottom/ViewportContainer4/Viewport4"]
 current = true
-zoom = Vector2( 0.1, 0.1 )
+zoom = Vector2( 0.08, 0.08 )
 smoothing_enabled = true
 script = ExtResource( 3 )
 
@@ -369,7 +369,7 @@ render_target_update_mode = 0
 
 [node name="Camera2D" type="Camera2D" parent="Container/ViewportContainer/HBoxContainerBottom/ViewportContainer2/Viewport2"]
 current = true
-zoom = Vector2( 0.1, 0.1 )
+zoom = Vector2( 0.08, 0.08 )
 smoothing_enabled = true
 script = ExtResource( 3 )
 
