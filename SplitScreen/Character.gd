@@ -16,7 +16,9 @@ onready var tween = $Tween
 var tile_size = 4;
 
 # Stun
-var stun_timeLeft = 0
+var stun_time_left = 0
+var bomb_time_left = 0
+var speed_time_left = 0
 
 var pauseInput = false
 
@@ -71,10 +73,20 @@ func do_action():
 func _physics_process(delta):
 	get_input()
 	
-	if(stun_timeLeft > 0):
-		stun_timeLeft -= delta*1000
-		if(stun_timeLeft <= 0):
-			speed = game.get_config("player","speed")
+	if (bomb_time_left):
+		bomb_time_left -= delta * 1000
+		if (bomb_time_left <= 0):
+			speed = game.get_config("player", "speed")
+	
+	if (stun_time_left > 0):
+		stun_time_left -= delta * 1000
+		if (stun_time_left <= 0):
+			speed /= game.get_item_config("stun", "value")
+			
+	if (speed_time_left > 0):
+		speed_time_left -= delta * 1000
+		if (speed_time_left <= 0):
+			speed /= game.get_item_config("speed", "value")
 			
 	if(velo.x != 0 || velo.y != 0): # only do tweening of any movement is available at all
 		if(speed > 0 && OS.get_ticks_msec()-lastInput >= (1.0/speed as float)*1000):
@@ -90,8 +102,15 @@ func _physics_process(delta):
 func get_action_called(type):
 	print("Player "+str(id)+" got action called "+ type)
 	if (type == "stun"):
+		speed *= game.get_item_config(type, "value")
+		stun_time_left += game.get_item_config(type, "duration")
+	elif (type == "speed"):
+		speed *= game.get_item_config(type, "value")
+		speed_time_left *= game.get_item_config(type, "duration")
+	elif (type == "bomb"):
 		speed = 0
-		stun_timeLeft += game.get_item_config(type, "duration")
+		bomb_time_left += game.get_item_config(type, "duration")
+		
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
