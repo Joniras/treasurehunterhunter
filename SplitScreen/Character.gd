@@ -26,6 +26,9 @@ var slow_time_left = 0
 var stun_time_left = 0
 var speed_time_left = 0
 var light_time_left = 0
+var slow_count_active = 0
+var speed_count_active = 0
+var light_count_active = 0
 
 var pauseInput = false
 
@@ -80,26 +83,32 @@ func do_action():
 func _physics_process(delta):
 	get_input()
 	
-	if (stun_time_left):
+	if (stun_time_left > 0):
 		stun_time_left -= delta * 1000
 		if (stun_time_left <= 0):
 			speed = game.get_config("speed")
 	
-	if (slow_time_left > 0):
+	if (slow_count_active > 0):
 		slow_time_left -= delta * 1000
-		if (slow_time_left <= 0):
+		var slow_time_duration = game.get_item_config(SLOW, "duration")
+		if (slow_time_left <= slow_time_duration * (slow_count_active - 1)):
 			speed /= game.get_item_config(SLOW, "value")
+			slow_count_active -= 1
 			
-	if (speed_time_left > 0):
+	if (speed_count_active > 0):
 		print(str(speed_time_left))
 		speed_time_left -= delta * 1000
-		if (speed_time_left <= 0):
+		var speed_duration = game.get_item_config(SPEED, "duration")
+		if (speed_time_left <= speed_duration * (speed_count_active - 1)):
 			speed /= game.get_item_config(SPEED, "value")
+			speed_count_active -= 1
 			
-	if (light_time_left > 0):
+	if (light_count_active > 0):
 		light_time_left -= delta * 1000
-		if (light_time_left <= 0):
+		var light_duration = game.get_item_config(LIGHT, "duration")
+		if (light_time_left <= light_duration * (light_count_active - 1)):
 			$Light.set_texture_scale($Light.get_texture_scale() / game.get_item_config(LIGHT, "value"))
+			light_count_active -= 1
 			
 	if(velo.x != 0 || velo.y != 0): # only do tweening of any movement is available at all
 		if(speed > 0 && OS.get_ticks_msec()-lastInput >= (1.0/speed as float)*1000):
@@ -117,15 +126,18 @@ func get_action_called(type):
 	if (type == SLOW):
 		speed *= game.get_item_config(type, "value")
 		slow_time_left += game.get_item_config(type, "duration")
+		slow_count_active += 1
 	elif (type == SPEED):
 		speed *= game.get_item_config(type, "value")
 		speed_time_left += game.get_item_config(type, "duration")
+		speed_count_active += 1
 	elif (type == STUN):
 		speed = 0
 		stun_time_left += game.get_item_config(type, "duration")
 	elif (type == LIGHT):
 		light_time_left += game.get_item_config(type, "duration")
 		$Light.set_texture_scale($Light.get_texture_scale() * game.get_item_config(type, "value"))
+		light_count_active += 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
