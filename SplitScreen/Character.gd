@@ -15,10 +15,17 @@ onready var tween = $Tween
 
 var tile_size = 4;
 
-# Stun
+# items
+const STUN = "stun"
+const SPEED = "speed"
+const WALL = "wall"
+const SLOW = "slow"
+const LIGHT = "light"
+#const STUN = "stun"
 var slow_time_left = 0
 var stun_time_left = 0
 var speed_time_left = 0
+var light_time_left = 0
 
 var pauseInput = false
 
@@ -81,12 +88,18 @@ func _physics_process(delta):
 	if (slow_time_left > 0):
 		slow_time_left -= delta * 1000
 		if (slow_time_left <= 0):
-			speed /= game.get_item_config("slow", "value")
+			speed /= game.get_item_config(SLOW, "value")
 			
 	if (speed_time_left > 0):
+		print(str(speed_time_left))
 		speed_time_left -= delta * 1000
 		if (speed_time_left <= 0):
-			speed /= game.get_item_config("speed", "value")
+			speed /= game.get_item_config(SPEED, "value")
+			
+	if (light_time_left > 0):
+		light_time_left -= delta * 1000
+		if (light_time_left <= 0):
+			$Light.set_texture_scale($Light.get_texture_scale() / game.get_item_config(LIGHT, "value"))
 			
 	if(velo.x != 0 || velo.y != 0): # only do tweening of any movement is available at all
 		if(speed > 0 && OS.get_ticks_msec()-lastInput >= (1.0/speed as float)*1000):
@@ -101,16 +114,18 @@ func _physics_process(delta):
 
 func get_action_called(type):
 	print("Player "+str(id)+" got action called "+ type)
-	if (type == "slow"):
+	if (type == SLOW):
 		speed *= game.get_item_config(type, "value")
 		slow_time_left += game.get_item_config(type, "duration")
-	elif (type == "speed"):
+	elif (type == SPEED):
 		speed *= game.get_item_config(type, "value")
-		speed_time_left *= game.get_item_config(type, "duration")
-	elif (type == "stun"):
+		speed_time_left += game.get_item_config(type, "duration")
+	elif (type == STUN):
 		speed = 0
 		stun_time_left += game.get_item_config(type, "duration")
-		
+	elif (type == LIGHT):
+		light_time_left += game.get_item_config(type, "duration")
+		$Light.set_texture_scale($Light.get_texture_scale() * game.get_item_config(type, "value"))
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

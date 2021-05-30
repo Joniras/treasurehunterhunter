@@ -271,6 +271,9 @@ func display_time():
 func call_action(type,caller):
 	if current_global_state != STATE_PLAYING:
 		return
+		
+	if (type == "wall"):
+		world.destroy_tiles(player[caller - 1].newPos)
 	var affects = get_item_config(type, "affects")
 	print(type +" affects: "+str(affects))
 	match affects:
@@ -306,7 +309,7 @@ func call_random(type):
 func call_random_other(type, caller):
 	var to = caller-1
 	while(to == caller-1):
-		to = rng.randi_range(0, playerCount-1)
+		to = rng.randi_range(0, playerCount - 1)
 	player[to].get_action_called(type)
 	
 	
@@ -341,7 +344,16 @@ func initDict():
 	speed["affects"] = "SELF"
 	speed["value"] = 2
 	itemConfig["speed"] = speed
-	 
+	
+	var light = Dictionary()
+	light["duration"] = 4000
+	light["affects"] = "SELF"
+	light["value"] = 1.5
+	itemConfig["light"] = light
+
+	var wall = Dictionary()
+	wall["affects"] = "SELF"
+	itemConfig["wall"] = wall
 
 func get_item_config(item, attribute):
 	return itemConfig[item][attribute]
