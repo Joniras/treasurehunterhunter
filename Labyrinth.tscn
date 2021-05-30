@@ -77,6 +77,7 @@ scale = Vector2( 10, 10 )
 texture = ExtResource( 4 )
 energy = 8.92
 mode = 1
+range_height = -1.0
 
 [node name="Node2D" type="Node2D" parent="."]
 scale = Vector2( 0.031, 0.031 )
