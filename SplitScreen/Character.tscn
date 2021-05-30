@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://SplitScreen/Character.gd" type="Script" id=1]
 [ext_resource path="res://assets/treasure_both.png" type="Texture" id=2]
 [ext_resource path="res://assets/spot.png" type="Texture" id=3]
 [ext_resource path="res://SplitScreentorch.tres" type="Animation" id=4]
+[ext_resource path="res://fonts/blockbusta-item.tres" type="DynamicFont" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 2.4, 2.4 )
@@ -34,7 +35,6 @@ modulate = Color( 1, 0.74902, 0, 1 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 3 )
 texture_scale = 1.5
-energy = 1.00196
 shadow_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -58,3 +58,24 @@ playing = true
 root_node = NodePath("../Light")
 playback_speed = 1.6
 anims/torch = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -24.0
+margin_top = -6.0
+margin_right = 376.0
+margin_bottom = 94.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_scale = Vector2( 0.12, 0.12 )
+custom_fonts/font = ExtResource( 5 )
+text = "POW"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

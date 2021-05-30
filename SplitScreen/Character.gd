@@ -30,6 +30,9 @@ var slow_count_active = 0
 var speed_count_active = 0
 var light_count_active = 0
 
+
+var label_time_left = 0
+
 var pauseInput = false
 
 
@@ -115,7 +118,11 @@ func _physics_process(delta):
 			lastInput = OS.get_ticks_msec()
 			move(velo)
 		
-		
+	
+	if (label_time_left > 0):
+		label_time_left -= delta * 1000
+		if (label_time_left <= 0):
+			hide_label()
 		
 # Declare member variables here. Examples:
 # var a = 2
@@ -127,27 +134,38 @@ func get_action_called(type):
 		speed *= game.get_item_config(type, "value")
 		slow_time_left += game.get_item_config(type, "duration")
 		slow_count_active += 1
+		show_label("SLOWED")
 	elif (type == SPEED):
 		speed *= game.get_item_config(type, "value")
 		speed_time_left += game.get_item_config(type, "duration")
 		speed_count_active += 1
+		show_label("SPEED UP")
 	elif (type == STUN):
 		speed = 0
 		stun_time_left += game.get_item_config(type, "duration")
+		show_label("STUNNED")
 	elif (type == LIGHT):
 		light_time_left += game.get_item_config(type, "duration")
 		$Light.set_texture_scale($Light.get_texture_scale() * game.get_item_config(type, "value"))
 		light_count_active += 1
+		show_label("LIGHT++")
 	elif (type == "path"):
 		var betterPos = newPos
 		betterPos.x -= (tile_size/2) 
 		betterPos.y -= (tile_size/2) 
 		betterPos = betterPos/tile_size
-		#print("PLAYER AT TILE POSTION:")
-		#print(betterPos)
-		
 		game.showShortestPath(betterPos, id)
-		
+		show_label("H4CK")
+	elif (type== "wall"):
+		show_label("POW")
+
+func show_label(text):
+	$Label.visible = true
+	$Label.text = text
+	label_time_left = 1000
+	
+func hide_label():
+	$Label.visible = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
